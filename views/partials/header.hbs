@@ -1,0 +1,63 @@
+<header class="header" data-header>
+  <div class="shell shell--wide header__inner">
+    <a class="brand" href="/" aria-label="{{company.name}} — home">
+      <span class="brand__mark">{{> mark}}</span>
+      <span class="brand__text">
+        <span class="brand__name">Providing&nbsp;IT&nbsp;Services</span>
+        <span class="brand__sub">Technology · Consulting · Support</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      {{#each nav}}
+        <a class="nav__link{{#if (startsWith ../path this.href)}} is-active{{/if}}" href="{{this.href}}">{{this.label}}</a>
+      {{/each}}
+    </nav>
+
+    <div class="header__aside">
+      <p class="clock-chip" data-clock aria-live="off">
+        <span class="clock-chip__dot" data-clock-dot></span>
+        <span>Dhaka</span>
+        <span class="clock-chip__time" data-clock-time>--:--</span>
+      </p>
+      <a class="btn" href="/contact"><span class="btn__label">Start a project</span></a>
+    </div>
+
+    <button class="burger" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu" data-burger>
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" data-drawer>
+  <nav aria-label="Mobile">
+    <ul class="drawer__list">
+      {{#each nav}}
+        <li>
+          <a class="drawer__link" href="{{this.href}}" style="--i: {{@index}}">
+            <span class="label">{{ordinal @index}}</span>
+            <span>{{this.label}}</span>
+          </a>
+        </li>
+      {{/each}}
+      <li>
+        <a class="drawer__link" href="/contact" style="--i: {{nav.length}}">
+          <span class="label">{{ordinal nav.length}}</span>
+          <span>Contact</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <div class="drawer__footer">
+    <p class="clock-chip" data-clock>
+      <span class="clock-chip__dot" data-clock-dot></span>
+      <span>Dhaka</span>
+      <span class="clock-chip__time" data-clock-time>--:--</span>
+    </p>
+    <a class="btn btn--lg" href="/contact"><span class="btn__label">Start a project</span></a>
+    <p class="muted" style="font-size: var(--step--1)">
+      <a href="mailto:{{company.email}}">{{company.email}}</a><br>
+      {{company.hours}}
+    </p>
+  </div>
+</div>

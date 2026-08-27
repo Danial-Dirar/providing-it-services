@@ -1,0 +1,120 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>About</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{hero.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{hero.lede}}</p>
+  </div>
+</section>
+
+<section class="stat-strip on-dark" aria-label="At a glance">
+  <div class="shell shell--wide">
+    <div class="stat-strip__grid">
+      {{#each stats}}
+        <div class="stat" data-reveal style="--i: {{@index}}">
+          <p class="stat__value">{{this.value}}</p>
+          <p class="stat__label">{{this.label}}</p>
+          <p class="stat__note">{{this.note}}</p>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="rail">
+      <div class="rail__aside" data-reveal>
+        <span class="label label--onlight">The firm</span>
+        <p class="muted" style="font-size: var(--step--1)">Banani, Dhaka. Founded {{company.founded}}.</p>
+      </div>
+      <div class="prose" data-reveal>
+        <p class="t-sm">Providing IT Services is a technology services firm in Dhaka. We build software, stand up data platforms, and run the operational teams that sit behind both — for companies in Bangladesh and for companies buying capacity from Bangladesh.</p>
+        <p class="muted">The six practices exist under one roof deliberately. In a services market where most firms specialise in one thing and subcontract the rest, a problem that crosses a boundary — a reporting failure that is really a process failure, a support backlog that is really a product defect — turns into a procurement exercise rather than a fix. We would rather absorb that internally.</p>
+        <p class="muted">Our view is that outsourcing relationships fail on communication far more often than on capability. The engineers are usually good enough. What goes wrong is that nobody says the schedule slipped until the deadline arrives, or the status report describes a different project from the one being built. Everything in the way we run engagements is an attempt to make that specific failure harder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-dark">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Commitments</span>
+      <h2 class="t-xl">Four things we put in the contract</h2>
+      <p class="lede">Not values. Terms — the kind you can hold us to when a project goes badly.</p>
+    </div>
+    <div class="principles">
+      {{#each principles}}
+        <article class="principle" data-reveal style="--i: {{@index}}">
+          <h3>{{this.title}}</h3>
+          <p>{{this.body}}</p>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="rail">
+      <div class="rail__aside" data-reveal>
+        <span class="label label--onlight">Engagement</span>
+      </div>
+      <div>
+        <div class="section__head mb-3" data-reveal>
+          <h2 class="t-xl">How a project runs, start to finish</h2>
+        </div>
+        <ol class="numbered">
+          {{#each process}}
+            <li>
+              <div>
+                <h3>{{this.name}} — <span class="muted" style="font-weight: 400">{{this.duration}}</span></h3>
+                <p>{{this.body}}</p>
+              </div>
+            </li>
+          {{/each}}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-dark">
+  <div class="shell shell--wide">
+    <div class="split">
+      <div data-reveal>
+        <span class="label">Where we are</span>
+        <h2 class="t-lg mt-2 mb-2">Dhaka, and the day it reaches</h2>
+        <p class="muted mb-3" style="font-size: var(--step--1); line-height: 1.7">
+          Bangladesh sits at UTC+6 with no daylight saving, which makes the arithmetic
+          unusually simple: one office, one schedule, and a working day that touches
+          Singapore and Sydney in the morning and London and Dubai in the afternoon.
+        </p>
+        <address class="footer__address" style="margin-top: 0">
+          {{company.address.line1}}<br>
+          {{company.address.line2}}<br>
+          {{company.address.country}}<br>
+          <a href="{{company.address.maps}}" rel="noopener noreferrer" target="_blank" style="color: var(--signal)">Open in Maps</a>
+        </address>
+      </div>
+
+      <div data-reveal style="--i: 1">
+        <span class="label">Local time in our hubs</span>
+        <div class="hubs mt-2" data-hub-clocks>
+          {{#each hubs}}
+            <div class="hub" data-hub-zone="{{this.zone}}">
+              <span class="hub__city">{{this.name}}</span>
+              <span class="hub__time">--:--</span>
+              <span class="hub__delta">Dhaka {{this.offset}}h</span>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{> cta}}

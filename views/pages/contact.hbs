@@ -1,0 +1,146 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>Contact</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>Tell us what you are trying to fix</h1>
+    <p class="lede" data-reveal style="--i: 1">
+      Send the problem rather than a specification. We will tell you whether it is a
+      project, a team, an audit or nothing at all — and which one before we quote.
+    </p>
+  </div>
+</section>
+
+<section class="section on-dark" style="padding-top: clamp(2rem, 3vw, 3rem)">
+  <div class="shell shell--wide">
+    <div class="split split--sidebar">
+
+      <div data-reveal>
+        <form
+          class="form"
+          method="post"
+          action="/api/contact"
+          data-contact-form
+          data-email="{{company.email}}"
+          novalidate
+        >
+          <div class="form__row">
+            <div class="field">
+              <label for="name">Your name <span class="req" aria-hidden="true">*</span></label>
+              <input id="name" name="name" type="text" autocomplete="name" required maxlength="120">
+              <p class="field__error" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="200">
+              <p class="field__error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="form__row">
+            <div class="field">
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" autocomplete="organization" maxlength="160">
+              <p class="field__error" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
+              <p class="field__error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="form__row">
+            <div class="field">
+              <label for="service">Closest practice <span class="req" aria-hidden="true">*</span></label>
+              <select id="service" name="service" required>
+                <option value="" disabled selected>Choose one</option>
+                {{#each services}}
+                  <option value="{{this.title}}">{{this.code}} — {{this.title}}</option>
+                {{/each}}
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+              <p class="field__error" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="budget">Budget</label>
+              <select id="budget" name="budget">
+                <option value="" selected>Prefer not to say</option>
+                {{#each budgets}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              </select>
+              <p class="field__error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">What are you trying to fix? <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="message" name="message" required minlength="20" maxlength="4000"
+              placeholder="The situation, what you have already tried, and what a good outcome looks like."></textarea>
+            <p class="field__error" aria-live="polite"></p>
+          </div>
+
+          {{!-- Honeypot: hidden from people, irresistible to bots. --}}
+          <div class="hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form__foot">
+            <button class="btn btn--lg" type="submit" data-form-submit>
+              <span class="btn__label">Send enquiry</span>
+            </button>
+            <p class="form__note">
+              We reply within one working day. Nothing you send here goes to a mailing list.
+              See our <a href="/privacy" style="color: var(--signal)">privacy notice</a>.
+            </p>
+          </div>
+
+          <div class="form__status" data-form-status role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <aside class="contact-aside" data-reveal style="--i: 1">
+        <div class="contact-aside__block">
+          <h3>Email</h3>
+          <p>
+            General — <a href="mailto:{{company.email}}">{{company.email}}</a><br>
+            New business — <a href="mailto:{{company.salesEmail}}">{{company.salesEmail}}</a><br>
+            Careers — <a href="mailto:{{company.careersEmail}}">{{company.careersEmail}}</a>
+          </p>
+        </div>
+
+        <div class="contact-aside__block">
+          <h3>Phone</h3>
+          <p><a href="tel:{{company.phoneHref}}">{{company.phone}}</a><br>{{company.hours}}</p>
+        </div>
+
+        <div class="contact-aside__block">
+          <h3>Office</h3>
+          <address>
+            {{company.address.line1}}<br>
+            {{company.address.line2}}<br>
+            {{company.address.country}}<br>
+            <a href="{{company.address.maps}}" rel="noopener noreferrer" target="_blank">Open in Maps</a>
+          </address>
+        </div>
+
+        <div class="contact-aside__block">
+          <h3>Local time in our hubs</h3>
+          <div class="hubs mt-1" data-hub-clocks>
+            {{#each hubs}}
+              <div class="hub" data-hub-zone="{{this.zone}}">
+                <span class="hub__city">{{this.name}}</span>
+                <span class="hub__time">--:--</span>
+                <span class="hub__delta">Dhaka {{this.offset}}h</span>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>

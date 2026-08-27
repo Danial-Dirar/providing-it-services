@@ -1,0 +1,47 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>Work</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{hero.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{hero.lede}}</p>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="case-list">
+      {{#each caseStudies}}
+        <article class="case" data-reveal style="--i: {{@index}}">
+          <div class="case__meta">
+            <span class="case__sector">{{this.sector}}</span>
+            <span class="case__duration">{{this.duration}}</span>
+          </div>
+          <div>
+            <h2 class="case__title">{{this.title}}</h2>
+            <p class="case__client">{{this.client}}</p>
+            <p class="case__summary">{{this.summary}}</p>
+            <span class="link">Read the engagement <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+          <div class="case__outcomes">
+            {{#each this.outcome}}
+              <div class="outcome">
+                <p class="outcome__metric">{{this.metric}}</p>
+                <p class="outcome__label">{{this.label}}</p>
+              </div>
+            {{/each}}
+          </div>
+          <a class="case__link" href="/work/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+
+    <p class="mt-4 muted" data-reveal style="font-size: var(--step--1); max-width: 60ch">
+      Numbers on this page were measured by the client, not by us, and are quoted with their permission.
+      Named references are available under NDA on request.
+    </p>
+  </div>
+</section>
+
+{{> cta}}

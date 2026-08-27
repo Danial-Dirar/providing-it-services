@@ -1,0 +1,28 @@
+<section class="error-page">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <p class="error-page__code">Error {{status}}</p>
+    <h1 class="t-xxl mb-2">{{heading}}</h1>
+    <p class="lede">{{body}}</p>
+
+    <div class="error-page__links">
+      <a class="btn" href="/"><span class="btn__label">Back to home</span></a>
+      <a class="btn btn--ghost" href="/contact"><span class="btn__label">Contact us</span></a>
+    </div>
+
+    <hr class="stitch mt-4 mb-3">
+
+    <p class="label label--dim mb-2">Everything on the site</p>
+    <ul class="chips">
+      <li><a class="chip" href="/services">Services</a></li>
+      {{#each services}}
+        <li><a class="chip" href="/services/{{this.slug}}">{{this.title}}</a></li>
+      {{/each}}
+      <li><a class="chip" href="/industries">Industries</a></li>
+      <li><a class="chip" href="/work">Work</a></li>
+      <li><a class="chip" href="/about">About</a></li>
+      <li><a class="chip" href="/careers">Careers</a></li>
+      <li><a class="chip" href="/contact">Contact</a></li>
+    </ul>
+  </div>
+</section>

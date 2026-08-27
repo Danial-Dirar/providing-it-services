@@ -1,0 +1,60 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>{{hero.title}}</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{hero.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{hero.lede}}</p>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--narrow">
+    <div class="prose" data-reveal>
+
+      {{#if (eq doc 'privacy')}}
+        <p class="muted"><strong>Last updated:</strong> {{year}}. This notice is a plain-English summary and is not a substitute for legal advice. It should be reviewed by counsel before the site goes live on a public domain.</p>
+
+        <h2 class="t-md mt-4 mb-2">What we collect</h2>
+        <p class="muted">When you submit the contact form we collect your name, email address, and — if you provide them — your company, phone number, the practice you selected, the budget band you selected, and the message you wrote. Our server also records the IP address and browser user agent the submission came from, which we use to block automated abuse.</p>
+
+        <h2 class="t-md mt-4 mb-2">Why we collect it</h2>
+        <p class="muted">To reply to your enquiry and, if it becomes a commercial conversation, to keep a record of it. We do not add contact-form submissions to a marketing list, and we do not sell or share them with third parties for their own marketing.</p>
+
+        <h2 class="t-md mt-4 mb-2">How long we keep it</h2>
+        <p class="muted">Enquiries that do not become engagements are deleted after 24 months. Enquiries that become engagements are retained for the life of the commercial relationship and for seven years after it ends, in line with Bangladeshi record-keeping obligations.</p>
+
+        <h2 class="t-md mt-4 mb-2">Cookies and analytics</h2>
+        <p class="muted">This website sets no cookies, runs no third-party analytics or advertising trackers, and makes no requests to any other company's servers. Web fonts are served from this domain rather than from a font service, so nothing about your visit reaches a third party. The working-hours instrument on the home page reads your time zone from your browser locally — that value is used to draw the chart and is never sent to us.</p>
+
+        <h2 class="t-md mt-4 mb-2">Your rights</h2>
+        <p class="muted">You can ask us what we hold about you, ask for it to be corrected, or ask for it to be deleted. Write to <a href="mailto:{{company.email}}">{{company.email}}</a> and we will respond within 30 days.</p>
+
+        <h2 class="t-md mt-4 mb-2">Contact</h2>
+        <p class="muted">{{company.legalName}}, {{company.address.line1}}, {{company.address.line2}}, {{company.address.country}}. Email <a href="mailto:{{company.email}}">{{company.email}}</a>.</p>
+      {{else}}
+        <p class="muted"><strong>Last updated:</strong> {{year}}. These terms should be reviewed by counsel before the site goes live on a public domain.</p>
+
+        <h2 class="t-md mt-4 mb-2">Using this site</h2>
+        <p class="muted">This website is provided for information about {{company.legalName}} and its services. You may read, print and share its pages for your own business purposes. You may not republish its content as your own, or use it to train or fine-tune a model for commercial resale, without written permission.</p>
+
+        <h2 class="t-md mt-4 mb-2">Nothing here is an offer</h2>
+        <p class="muted">Descriptions of services, engagement models and timeframes are indicative. They do not constitute an offer, a quotation or a contractual commitment. Any engagement is governed by a signed statement of work between us.</p>
+
+        <h2 class="t-md mt-4 mb-2">Case studies and figures</h2>
+        <p class="muted">Figures quoted in case studies were measured by the client concerned and are published with their permission. Client identities are withheld where a public reference has not been agreed. Past results do not guarantee future outcomes.</p>
+
+        <h2 class="t-md mt-4 mb-2">Third-party links</h2>
+        <p class="muted">Where we link to third-party sites we do so for convenience. We do not control them and we are not responsible for their content or their privacy practices.</p>
+
+        <h2 class="t-md mt-4 mb-2">Governing law</h2>
+        <p class="muted">These terms are governed by the laws of the People's Republic of Bangladesh, and the courts of Dhaka have exclusive jurisdiction over any dispute arising from them.</p>
+
+        <h2 class="t-md mt-4 mb-2">Contact</h2>
+        <p class="muted">Questions about these terms go to <a href="mailto:{{company.email}}">{{company.email}}</a>.</p>
+      {{/if}}
+
+    </div>
+  </div>
+</section>

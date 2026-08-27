@@ -1,0 +1,94 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span>
+      <a href="/work">Work</a><span aria-hidden="true">/</span>
+      <span>{{study.sector}}</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{study.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{study.summary}}</p>
+    <p class="label label--dim mt-3" data-reveal style="--i: 2">{{study.client}} &middot; {{study.duration}}</p>
+  </div>
+</section>
+
+<section class="stat-strip on-dark" aria-label="Outcomes">
+  <div class="shell shell--wide">
+    <div class="stat-strip__grid">
+      {{#each study.outcome}}
+        <div class="stat" data-reveal style="--i: {{@index}}">
+          <p class="stat__value">{{this.metric}}</p>
+          <p class="stat__label">{{this.label}}</p>
+        </div>
+      {{/each}}
+      <div class="stat" data-reveal style="--i: 3">
+        <p class="stat__value">{{study.duration}}</p>
+        <p class="stat__label">Engagement length</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="split split--sidebar">
+      <div data-reveal>
+        <span class="label label--onlight">The problem</span>
+        <div class="prose mt-2 mb-3"><p class="t-sm">{{study.challenge}}</p></div>
+
+        <h2 class="t-lg mt-4 mb-2">What we did</h2>
+        <ol class="numbered">
+          {{#each study.approach}}
+            <li><div><p>{{this}}</p></div></li>
+          {{/each}}
+        </ol>
+      </div>
+
+      <aside data-reveal style="--i: 1">
+        <h2 class="t-md mb-2">Practices involved</h2>
+        <ul class="chips">
+          {{#each study.services}}<li class="chip">{{this}}</li>{{/each}}
+        </ul>
+
+        <h3 class="t-md mt-4 mb-2">Sector</h3>
+        <p class="muted" style="font-size: var(--step--1)">{{study.sector}}</p>
+
+        <h3 class="t-md mt-4 mb-2">Client</h3>
+        <p class="muted" style="font-size: var(--step--1)">{{study.client}}. Named reference available under NDA.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight on-light" style="padding-top: 0">
+  <div class="shell shell--wide">
+    <hr class="stitch mb-3">
+    <p class="label label--onlight mb-2" data-reveal>More work</p>
+    <div class="case-list">
+      {{#each others}}
+        <article class="case" data-reveal style="--i: {{@index}}">
+          <div class="case__meta">
+            <span class="case__sector">{{this.sector}}</span>
+            <span class="case__duration">{{this.duration}}</span>
+          </div>
+          <div>
+            <h3 class="case__title">{{this.title}}</h3>
+            <p class="case__summary">{{this.summary}}</p>
+            <span class="link">Read the engagement <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+          <div class="case__outcomes">
+            {{#each (take this.outcome 2)}}
+              <div class="outcome">
+                <p class="outcome__metric">{{this.metric}}</p>
+                <p class="outcome__label">{{this.label}}</p>
+              </div>
+            {{/each}}
+          </div>
+          <a class="case__link" href="/work/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+{{> cta}}

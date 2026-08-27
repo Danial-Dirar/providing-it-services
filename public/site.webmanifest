@@ -1,0 +1,14 @@
+{
+  "name": "Providing IT Services",
+  "short_name": "PITS",
+  "description": "Software, data and operations teams built in Dhaka.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#04162a",
+  "theme_color": "#04162a",
+  "icons": [
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/img/mark.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

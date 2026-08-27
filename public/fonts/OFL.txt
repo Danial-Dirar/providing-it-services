@@ -1,0 +1,9 @@
+Archivo — Copyright (c) Omnibus-Type
+IBM Plex Sans, IBM Plex Mono — Copyright (c) IBM Corp.
+
+Both families are licensed under the SIL Open Font License, Version 1.1.
+Full licence text: https://openfontlicense.org
+
+These woff2 files were obtained from Google Fonts (fonts.gstatic.com) and are
+redistributed here unmodified, as the OFL permits. They are used only as
+webfonts on this site; they are not sold or bundled into another font product.

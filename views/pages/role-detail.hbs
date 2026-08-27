@@ -1,0 +1,75 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span>
+      <a href="/careers">Careers</a><span aria-hidden="true">/</span>
+      <span>{{role.practice}}</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{role.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{role.summary}}</p>
+    <ul class="chips mt-3" data-reveal style="--i: 2">
+      <li class="chip">{{role.type}}</li>
+      <li class="chip">{{role.location}}</li>
+      <li class="chip">{{role.level}}</li>
+      <li class="chip">{{role.practice}}</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="split split--sidebar">
+      <div data-reveal>
+        <h2 class="t-lg mb-2">What you will do</h2>
+        <ul class="checklist">
+          {{#each role.responsibilities}}<li><span>{{this}}</span></li>{{/each}}
+        </ul>
+
+        <h2 class="t-lg mt-4 mb-2">What we are looking for</h2>
+        <ul class="checklist">
+          {{#each role.requirements}}<li><span>{{this}}</span></li>{{/each}}
+        </ul>
+      </div>
+
+      <aside data-reveal style="--i: 1">
+        <h2 class="t-md mb-2">How to apply</h2>
+        <p class="muted mb-2" style="font-size: var(--step--1); line-height: 1.7">
+          Email your CV and a short note — a few sentences on why this role, not a cover letter —
+          to <a href="mailto:{{company.careersEmail}}">{{company.careersEmail}}</a> with the role title in the subject line.
+        </p>
+        <p class="muted mb-3" style="font-size: var(--step--1); line-height: 1.7">
+          We reply to every application. The process is a screening call, a technical or
+          scenario conversation, and a final conversation with the practice lead.
+        </p>
+        <a class="btn" href="mailto:{{company.careersEmail}}?subject=Application%3A%20{{role.title}}">
+          <span class="btn__label">Apply by email</span>
+        </a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight on-light" style="padding-top: 0">
+  <div class="shell shell--wide">
+    <hr class="stitch mb-3">
+    <p class="label label--onlight mb-2" data-reveal>Other open roles</p>
+    <div class="roles">
+      {{#each others}}
+        <article class="role" data-reveal style="--i: {{@index}}">
+          <div>
+            <p class="role__practice">{{this.practice}}</p>
+            <h3 class="role__title">{{this.title}}</h3>
+          </div>
+          <div class="role__facts">
+            <span>{{this.type}}</span>
+            <span>{{this.location}}</span>
+            <span>{{this.level}}</span>
+          </div>
+          <span class="link">View role <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          <a class="role__link" href="/careers/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,74 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>Careers</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{hero.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{hero.lede}}</p>
+  </div>
+</section>
+
+<section class="section section--tight on-light">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label label--onlight">Open roles</span>
+      <h2 class="t-lg">{{roles.length}} positions in Banani, Dhaka</h2>
+    </div>
+
+    <div class="roles">
+      {{#each roles}}
+        <article class="role" data-reveal style="--i: {{@index}}">
+          <div>
+            <p class="role__practice">{{this.practice}}</p>
+            <h3 class="role__title">{{this.title}}</h3>
+          </div>
+          <div class="role__facts">
+            <span>{{this.type}}</span>
+            <span>{{this.location}}</span>
+            <span>{{this.level}}</span>
+          </div>
+          <span class="link">View role <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          <a class="role__link" href="/careers/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-dark">
+  <div class="shell shell--wide">
+    <div class="split">
+      <div data-reveal>
+        <span class="label">What the work is like</span>
+        <h2 class="t-lg mt-2 mb-2">Client work, with your name on it</h2>
+        <div class="prose">
+          <p class="muted">There is no internal product to hide behind. What you build is used by a client's staff or customers, usually within weeks, and you will hear directly when it does not work. Most people find that either the best part of the job or the reason it is not for them.</p>
+          <p class="muted">You will be named on the account. Clients meet the people doing the work, and we do not rotate anyone off a project to hit a utilisation number.</p>
+        </div>
+      </div>
+      <div data-reveal style="--i: 1">
+        <span class="label">What we offer</span>
+        <h2 class="t-lg mt-2 mb-2">The concrete parts</h2>
+        <ul class="checklist">
+          <li><span>Salary reviewed twice yearly against the Dhaka market, not annually</span></li>
+          <li><span>Hybrid working, with core hours rather than fixed ones for non-shift roles</span></li>
+          <li><span>A training budget with time allocated to use it, not just money</span></li>
+          <li><span>Direct client contact from your first month, with support the first few times</span></li>
+          <li><span>Festival bonuses, medical coverage and provident fund per Bangladesh labour law</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-4" data-reveal>
+      <hr class="stitch mb-3">
+      <p class="muted" style="font-size: var(--step--1); max-width: 62ch">
+        Nothing here fits? Send your CV and a short note about what you want to work on
+        to <a href="mailto:{{company.careersEmail}}" style="color: var(--signal)">{{company.careersEmail}}</a>.
+        We read them, and we reply.
+      </p>
+    </div>
+  </div>
+</section>
+
+{{> cta}}

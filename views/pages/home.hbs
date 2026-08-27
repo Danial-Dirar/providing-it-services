@@ -1,0 +1,271 @@
+{{!-- Home --}}
+
+<section class="hero" data-hero>
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide hero__grid">
+
+    <div class="hero__copy">
+      <p class="hero__eyebrow label hero__fade" style="--i: 0">Dhaka, Bangladesh · 23.78°N 90.40°E</p>
+
+      <h1 class="hero__title t-hero">
+        <span class="reveal-line" style="--i: 0"><span>Six practices.</span></span>
+        <span class="reveal-line" style="--i: 1"><span>One floor in <em>Dhaka</em>.</span></span>
+        <span class="reveal-line" style="--i: 2"><span>Every hour of your day.</span></span>
+      </h1>
+
+      <p class="lede hero__lede hero__fade" style="--i: 1">
+        Web platforms, data pipelines, support desks and the operations teams behind
+        them — built and run by one accountable group, in a time zone that reaches
+        London, Dubai, Singapore and Sydney inside the same working day.
+      </p>
+
+      <div class="hero__actions hero__fade" style="--i: 2">
+        <a class="btn btn--lg" href="/contact"><span class="btn__label">Start a project</span></a>
+        <a class="btn btn--lg btn--ghost" href="#practices"><span class="btn__label">What we do</span></a>
+      </div>
+
+      <ul class="hero__codes hero__fade" style="--i: 3" aria-label="Practice areas">
+        {{#each services}}
+          <li>
+            <a class="code-chip" href="/services/{{this.slug}}">
+              <span class="code-chip__code">{{this.code}}</span>
+              <span>{{this.title}}</span>
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+
+    {{!-- The meridian: a globe of hairline meshwork with Dhaka as the origin
+          node and live pulses running out to each delivery hub. --}}
+    <div class="hero__meridian hero__fade" style="--i: 2">
+      <div class="meridian" data-meridian data-hubs="{{json hubs}}">
+        <canvas class="meridian__canvas" data-meridian-canvas aria-hidden="true"></canvas>
+        <p class="meridian__readout">
+          <span>Origin · <strong>Dhaka</strong></span>
+          <span>Routes active · <strong data-meridian-count>5</strong></span>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="stat-strip on-dark" aria-label="At a glance">
+  <div class="shell shell--wide">
+    <div class="stat-strip__grid">
+      {{#each stats}}
+        <div class="stat" data-reveal style="--i: {{@index}}">
+          <p class="stat__value">{{this.value}}</p>
+          <p class="stat__label">{{this.label}}</p>
+          <p class="stat__note">{{this.note}}</p>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-light" id="practices">
+  <div class="shell shell--wide">
+    <div class="rail">
+      <div class="rail__aside" data-reveal>
+        <span class="label">Practices</span>
+        <p class="muted" style="font-size: var(--step--1)">Six codes. Each one is a team, not a line item on a capability slide.</p>
+      </div>
+
+      <div>
+        <div class="section__head mb-3" data-reveal>
+          <h2 class="t-xl">Most firms sell one of these and subcontract the rest</h2>
+          <p class="lede">We run all six from the same floor. That matters on the day a data problem turns out to be a process problem — because fixing it does not become a new procurement exercise.</p>
+        </div>
+
+        <div class="matrix">
+          {{#each services}}
+            <article class="practice" data-reveal style="--i: {{@index}}">
+              <div class="practice__head">
+                <span class="practice__code">{{this.code}}</span>
+                <span class="practice__arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 12L12 4M12 4H5.5M12 4v6.5"/>
+                  </svg>
+                </span>
+              </div>
+              <h3 class="practice__title">{{this.title}}</h3>
+              <p class="practice__tagline">{{this.tagline}}</p>
+              <ul class="practice__list">
+                {{#each (take this.deliverables 3)}}
+                  <li>{{this}}</li>
+                {{/each}}
+              </ul>
+              <a class="practice__link" href="/services/{{this.slug}}"><span>{{this.title}}</span></a>
+            </article>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{!-- Signature: the coverage instrument. Everything here is computed from the
+      visitor's own clock, so the answer is about them rather than about us. --}}
+<section class="section coverage on-dark" id="coverage">
+  <div class="shell shell--wide">
+    <div class="coverage__head">
+      <div class="section__head" data-reveal>
+        <span class="label">Coverage</span>
+        <h2 class="t-xl">How much of your day we are already awake for</h2>
+        <p class="lede">Dhaka runs 09:00 to 18:00, GMT+6. Your browser knows where you are, so the band below is your working day against ours — no form, no sales call.</p>
+      </div>
+
+      <div class="coverage__now" data-reveal style="--i: 1">
+        <div class="is-dhaka">
+          <span class="label">Dhaka now</span>
+          <b data-coverage-dhaka>--:--</b>
+        </div>
+        <div class="is-you">
+          <span class="label">You now</span>
+          <b data-coverage-you>--:--</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="band" data-coverage data-reveal>
+      <div class="band__legend">
+        <span>Your local hours, 00 → 23</span>
+        <span data-coverage-zone>Detecting time zone…</span>
+      </div>
+      <div class="band__row" data-coverage-cells role="img" aria-label="Working-hour overlap between Dhaka and your location"></div>
+      <div class="band__hours" data-coverage-hours aria-hidden="true"></div>
+    </div>
+
+    <p class="coverage__result" data-reveal>
+      <b data-coverage-overlap>—</b>
+      <span class="muted" data-coverage-sentence>Working out the overlap with your local time…</span>
+    </p>
+
+    <div class="hubs" data-hub-clocks data-hubs="{{json hubs}}" data-reveal>
+      {{#each hubs}}
+        <div class="hub" data-hub-zone="{{this.zone}}">
+          <span class="hub__city">{{this.name}}</span>
+          <span class="hub__time">--:--</span>
+          <span class="hub__delta">Dhaka {{#if (eq this.offset 0)}}same{{else}}{{this.offset}}h{{/if}}</span>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-light" id="work">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Work</span>
+      <h2 class="t-xl">Three engagements, described honestly</h2>
+      <p class="lede">Client names stay anonymous until a public reference is agreed in writing. The problems, the approach and the numbers are as they happened.</p>
+    </div>
+
+    <div class="case-list">
+      {{#each caseStudies}}
+        <article class="case" data-reveal style="--i: {{@index}}">
+          <div class="case__meta">
+            <span class="case__sector">{{this.sector}}</span>
+            <span class="case__duration">{{this.duration}}</span>
+          </div>
+
+          <div>
+            <h3 class="case__title">{{this.title}}</h3>
+            <p class="case__client">{{this.client}}</p>
+            <p class="case__summary">{{this.summary}}</p>
+            <span class="link">Read the engagement <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+
+          <div class="case__outcomes">
+            {{#each this.outcome}}
+              <div class="outcome">
+                <p class="outcome__metric">{{this.metric}}</p>
+                <p class="outcome__label">{{this.label}}</p>
+              </div>
+            {{/each}}
+          </div>
+
+          <a class="case__link" href="/work/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-dark" id="process">
+  <div class="shell shell--wide">
+    <div class="rail">
+      <div class="rail__aside" data-reveal>
+        <span class="label">Engagement</span>
+        <p class="muted" style="font-size: var(--step--1)">The same four stages whether the deliverable is a platform, a dashboard or a team of twelve.</p>
+      </div>
+
+      <div>
+        <div class="section__head mb-3" data-reveal>
+          <h2 class="t-xl">Four stages, and you can see the end of each one</h2>
+          <p class="lede">Nothing here is a milestone you have to take on trust. Every stage ends in a document or a running system you can open yourself.</p>
+        </div>
+
+        <div class="process">
+          {{#each process}}
+            <div class="step" data-reveal style="--i: {{@index}}">
+              <span class="step__num">{{this.step}}</span>
+              <h3 class="step__name">{{this.name}}</h3>
+              <p class="step__duration">{{this.duration}}</p>
+              <p class="step__body">{{this.body}}</p>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-light" id="industries">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Industries</span>
+      <h2 class="t-xl">Sectors where we start with the questions, not the definitions</h2>
+      <p class="lede">Domain knowledge is the difference between a three-week discovery and a three-day one.</p>
+    </div>
+
+    <div class="sectors">
+      {{#each industries}}
+        <article class="sector" data-reveal style="--i: {{@index}}">
+          <h3 class="sector__name">{{this.name}}</h3>
+          <p class="sector__body">{{this.body}}</p>
+          <ul class="sector__needs">
+            {{#each this.needs}}<li>{{this}}</li>{{/each}}
+          </ul>
+        </article>
+      {{/each}}
+    </div>
+
+    <p class="mt-3" data-reveal>
+      <a class="link" href="/industries">What each sector asks us for <span class="arrow" aria-hidden="true">→</span></a>
+    </p>
+  </div>
+</section>
+
+<section class="section on-dark" id="principles">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Commitments</span>
+      <h2 class="t-xl">Four things we put in the contract</h2>
+      <p class="lede">Outsourcing relationships fail on communication far more often than on capability. These are the terms that follow from taking that seriously.</p>
+    </div>
+
+    <div class="principles">
+      {{#each principles}}
+        <article class="principle" data-reveal style="--i: {{@index}}">
+          <h3>{{this.title}}</h3>
+          <p>{{this.body}}</p>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+{{> cta}}

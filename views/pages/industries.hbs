@@ -1,0 +1,87 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>Industries</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{hero.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{hero.lede}}</p>
+  </div>
+</section>
+
+<section class="section section--tight on-light">
+  <div class="shell shell--wide">
+    <div class="sectors">
+      {{#each industries}}
+        <article class="sector" data-reveal style="--i: {{@index}}">
+          <h2 class="sector__name">{{this.name}}</h2>
+          <p class="sector__body">{{this.body}}</p>
+          <ul class="sector__needs">
+            {{#each this.needs}}<li>{{this}}</li>{{/each}}
+          </ul>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section on-dark">
+  <div class="shell shell--wide">
+    <div class="split">
+      <div data-reveal>
+        <span class="label">Outside these sectors</span>
+        <h2 class="t-lg mt-2 mb-2">We will say so</h2>
+        <div class="prose">
+          <p class="muted">If your industry is not on this list, the honest position is that discovery will take longer and cost more, because we will be learning your vocabulary on your time. We price that in openly rather than pretending the learning curve does not exist.</p>
+          <p class="muted">In practice it adds a week or two to scoping. Sometimes the better answer is a firm that already lives in your sector, and we will tell you that too.</p>
+        </div>
+      </div>
+      <div data-reveal style="--i: 1">
+        <span class="label">Common ground</span>
+        <h2 class="t-lg mt-2 mb-2">What repeats across all of them</h2>
+        <ul class="checklist">
+          <li><span>A system of record nobody wants to touch, holding data everything else depends on</span></li>
+          <li><span>Reporting assembled by hand each month, by someone who has other work</span></li>
+          <li><span>An operations team absorbing the gap between two systems that do not talk</span></li>
+          <li><span>A backlog of small fixes that never clears because nobody owns it</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Work</span>
+      <h2 class="t-xl">Engagements in these sectors</h2>
+    </div>
+    <div class="case-list">
+      {{#each caseStudies}}
+        <article class="case" data-reveal style="--i: {{@index}}">
+          <div class="case__meta">
+            <span class="case__sector">{{this.sector}}</span>
+            <span class="case__duration">{{this.duration}}</span>
+          </div>
+          <div>
+            <h3 class="case__title">{{this.title}}</h3>
+            <p class="case__client">{{this.client}}</p>
+            <p class="case__summary">{{this.summary}}</p>
+            <span class="link">Read the engagement <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+          <div class="case__outcomes">
+            {{#each this.outcome}}
+              <div class="outcome">
+                <p class="outcome__metric">{{this.metric}}</p>
+                <p class="outcome__label">{{this.label}}</p>
+              </div>
+            {{/each}}
+          </div>
+          <a class="case__link" href="/work/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+{{> cta}}

@@ -1,0 +1,150 @@
+<section class="page-hero">
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <div class="shell shell--wide">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span>
+      <a href="/services">Services</a><span aria-hidden="true">/</span>
+      <span>{{service.code}}</span>
+    </nav>
+    <h1 class="page-hero__title" data-reveal>{{service.title}}</h1>
+    <p class="lede" data-reveal style="--i: 1">{{service.tagline}}</p>
+    <div class="hero__actions mt-3" data-reveal style="--i: 2">
+      <a class="btn" href="/contact"><span class="btn__label">Talk to this team</span></a>
+      <a class="btn btn--ghost" href="#engagements"><span class="btn__label">How we price it</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="split split--sidebar">
+      <div data-reveal>
+        <span class="label label--onlight">Practice {{service.code}}</span>
+        <div class="prose mt-2">
+          <p class="t-sm">{{service.intro}}</p>
+        </div>
+
+        <h2 class="t-lg mt-4 mb-2">How the practice works</h2>
+        <ol class="numbered">
+          {{#each service.approach}}
+            <li>
+              <div>
+                <h3>{{this.heading}}</h3>
+                <p>{{this.body}}</p>
+              </div>
+            </li>
+          {{/each}}
+        </ol>
+      </div>
+
+      <aside data-reveal style="--i: 1">
+        <h2 class="t-md mb-2">What you receive</h2>
+        <ul class="checklist">
+          {{#each service.deliverables}}<li><span>{{this}}</span></li>{{/each}}
+        </ul>
+
+        <h3 class="t-md mt-4 mb-2">Tools and platforms</h3>
+        <ul class="chips">
+          {{#each service.stack}}<li class="chip">{{this}}</li>{{/each}}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section on-dark" id="engagements">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Engagement models</span>
+      <h2 class="t-xl">Three ways to buy this</h2>
+      <p class="lede">Pick the one that matches how settled your requirements are. We will tell you if you have picked the expensive one for your situation.</p>
+    </div>
+    <div class="cards">
+      {{#each service.engagements}}
+        <article class="card" data-reveal style="--i: {{@index}}">
+          <h3>{{this.name}}</h3>
+          <p>{{this.body}}</p>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+{{#if (any related)}}
+<section class="section on-light">
+  <div class="shell shell--wide">
+    <div class="section__head mb-3" data-reveal>
+      <span class="label">Related work</span>
+      <h2 class="t-lg">Where this practice has been used</h2>
+    </div>
+    <div class="case-list">
+      {{#each related}}
+        <article class="case" data-reveal style="--i: {{@index}}">
+          <div class="case__meta">
+            <span class="case__sector">{{this.sector}}</span>
+            <span class="case__duration">{{this.duration}}</span>
+          </div>
+          <div>
+            <h3 class="case__title">{{this.title}}</h3>
+            <p class="case__summary">{{this.summary}}</p>
+            <span class="link">Read the engagement <span class="arrow" aria-hidden="true">→</span></span>
+          </div>
+          <div class="case__outcomes">
+            {{#each this.outcome}}
+              <div class="outcome">
+                <p class="outcome__metric">{{this.metric}}</p>
+                <p class="outcome__label">{{this.label}}</p>
+              </div>
+            {{/each}}
+          </div>
+          <a class="case__link" href="/work/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+{{/if}}
+
+<section class="section on-dark">
+  <div class="shell shell--wide">
+    <div class="rail">
+      <div class="rail__aside" data-reveal>
+        <span class="label">Questions</span>
+        <p class="muted" style="font-size: var(--step--1)">The ones this practice gets asked in almost every first call.</p>
+      </div>
+      <div class="faq" data-reveal>
+        {{#each service.faqs}}
+          <details{{#if @first}} open{{/if}}>
+            <summary>{{this.q}}</summary>
+            <p class="faq__answer">{{this.a}}</p>
+          </details>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight on-light">
+  <div class="shell shell--wide">
+    <p class="label label--onlight mb-2" data-reveal>Other practices</p>
+    <div class="matrix">
+      {{#each others}}
+        <article class="practice" data-reveal style="--i: {{@index}}">
+          <div class="practice__head">
+            <span class="practice__code">{{this.code}}</span>
+            <span class="practice__arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 12L12 4M12 4H5.5M12 4v6.5"/>
+              </svg>
+            </span>
+          </div>
+          <h3 class="practice__title">{{this.title}}</h3>
+          <p class="practice__tagline">{{this.tagline}}</p>
+          <a class="practice__link" href="/services/{{this.slug}}"><span>{{this.title}}</span></a>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+{{> cta}}
