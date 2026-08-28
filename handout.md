@@ -225,15 +225,31 @@ what is left is running the deploy.
 - The cache-busting `buildId` uses `VERCEL_GIT_COMMIT_SHA` when present, so it
   is stable across the instances of a single deploy rather than per cold start.
 
-**The one env var to set:** `SITE_URL`, Production environment only. Leave it
-unset for Preview. Everything else (`NODE_ENV`, `VERCEL`, `VERCEL_ENV`,
-`VERCEL_URL`, `VERCEL_GIT_COMMIT_SHA`) is supplied by the platform.
+**Env vars to set:**
+
+| Var | Where | Value | When |
+|---|---|---|---|
+| `SITE_URL` | Production only | `https://<real-domain>` | Once the domain is attached. Leave unset on Preview so previews self-canonicalise. |
+| `ALLOW_INDEXING` | Production only | `true` | **At launch, not before** — see below. |
+
+Everything else (`NODE_ENV`, `VERCEL`, `VERCEL_ENV`, `VERCEL_URL`,
+`VERCEL_GIT_COMMIT_SHA`) is supplied by the platform.
+
+**Indexing is opt-in.** Vercel deploys the default branch straight to
+Production, so a first deploy would otherwise have gone live with `robots.txt`
+saying `Allow: /` while the site still carries invented case studies and a
+placeholder phone number. `isIndexable()` in `src/common/site-url.ts` therefore
+requires `ALLOW_INDEXING=true` on top of production; until it is set, robots.txt
+says `Disallow: /` and every response carries `X-Robots-Tag: noindex, nofollow`.
+Turning it on is the last step of launch, after §4 is resolved.
 
 **Verified locally** by running `api/index.js` against a bare `http` server with
 `VERCEL=1 VERCEL_ENV=production NODE_ENV=production` set: all routes 200,
 `/nope` 404s, `/assets/*` serves, `POST /api/contact` returns 200 with a
-reference on a read-only filesystem, canonicals use `SITE_URL`, no
-`localhost:3100` leaks into the HTML, and `robots.txt` allows crawling.
+reference on a read-only filesystem, canonicals use `SITE_URL`, and no
+`localhost:3100` leaks into the HTML. Both indexing states were checked:
+closed by default, and open (`Allow: /`, no `X-Robots-Tag`, real sitemap URL)
+with `ALLOW_INDEXING=true`.
 
 **Caveats that come with serverless**
 
@@ -390,4 +406,5 @@ in a loop crashes on macOS.
    domain and redeploy so canonicals, OG tags, JSON-LD and the sitemap are right.
 6. Cross-browser and Lighthouse pass against the deployed URL.
 7. Legal review of `/privacy` and `/terms`.
-8. Launch.
+8. Launch — and only now set `ALLOW_INDEXING=true` on Production and redeploy,
+   which is what actually opens the site to search engines.

@@ -1,6 +1,6 @@
 import { Controller, Get, Header } from '@nestjs/common';
 import { ContentService } from '../content/content.service';
-import { isProductionEnv, resolveSiteUrl } from '../common/site-url';
+import { isIndexable, resolveSiteUrl } from '../common/site-url';
 
 /** robots.txt and sitemap.xml, generated from the same content the pages use. */
 @Controller()
@@ -15,10 +15,9 @@ export class SeoController {
   @Header('Content-Type', 'text/plain; charset=utf-8')
   robots(): string {
     // Keep staging out of the index; only allow crawling on the real domain.
-    // Preview deployments must stay out of the index even though Vercel sets
-    // NODE_ENV=production for them too.
-    const isProduction = isProductionEnv();
-    return isProduction
+    // Crawling is opt-in: previews, and any production deploy that has not had
+    // ALLOW_INDEXING switched on, stay out of the index.
+    return isIndexable()
       ? ['User-agent: *', 'Allow: /', '', `Sitemap: ${this.siteUrl}/sitemap.xml`, ''].join('\n')
       : ['User-agent: *', 'Disallow: /', ''].join('\n');
   }

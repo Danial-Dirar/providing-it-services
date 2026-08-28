@@ -5,10 +5,11 @@ import { join } from 'path';
 import helmet from 'helmet';
 import compression from 'compression';
 import hbs from 'hbs';
+import type { NextFunction, Request, Response } from 'express';
 
 import { AppModule } from './app.module';
 import { registerHandlebarsHelpers } from './common/hbs-helpers';
-import { isProductionEnv } from './common/site-url';
+import { isIndexable, isProductionEnv } from './common/site-url';
 
 /**
  * Locate the directory holding `views/` and `public/`.
@@ -67,6 +68,15 @@ export async function createApp(): Promise<NestExpressApplication> {
       referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     }),
   );
+
+  // robots.txt asks crawlers not to fetch; this tells any that do anyway not to
+  // index. Both come off together via ALLOW_INDEXING at launch.
+  if (!isIndexable()) {
+    app.use((_req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      next();
+    });
+  }
 
   app.use(compression());
 
