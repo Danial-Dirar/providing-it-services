@@ -1,9 +1,12 @@
 {
   "name": "providing-it-services",
   "version": "0.1.0",
-  "description": "Corporate website for Providing IT Services — Dhaka, Bangladesh",
+  "description": "Corporate website for Providing IT Services \u2014 Dhaka, Bangladesh",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "nest build",
     "start": "nest start",

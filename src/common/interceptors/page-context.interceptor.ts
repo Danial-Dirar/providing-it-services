@@ -9,6 +9,7 @@ import { RENDER_METADATA } from '@nestjs/common/constants';
 import { Request } from 'express';
 import { Observable, map } from 'rxjs';
 import { ContentService } from '../../content/content.service';
+import { resolveSiteUrl } from '../site-url';
 
 /**
  * Merges site-wide context into every rendered view model.
@@ -31,7 +32,7 @@ export class PageContextInterceptor implements NestInterceptor {
     if (!template) return next.handle();
 
     const req = context.switchToHttp().getRequest<Request>();
-    const siteUrl = (process.env.SITE_URL || 'http://localhost:3100').replace(/\/$/, '');
+    const siteUrl = resolveSiteUrl();
 
     return next.handle().pipe(
       map((data: unknown) => {

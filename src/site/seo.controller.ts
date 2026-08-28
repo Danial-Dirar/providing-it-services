@@ -1,5 +1,6 @@
 import { Controller, Get, Header } from '@nestjs/common';
 import { ContentService } from '../content/content.service';
+import { isProductionEnv, resolveSiteUrl } from '../common/site-url';
 
 /** robots.txt and sitemap.xml, generated from the same content the pages use. */
 @Controller()
@@ -7,14 +8,16 @@ export class SeoController {
   constructor(private readonly content: ContentService) {}
 
   private get siteUrl(): string {
-    return (process.env.SITE_URL || 'http://localhost:3100').replace(/\/$/, '');
+    return resolveSiteUrl();
   }
 
   @Get('robots.txt')
   @Header('Content-Type', 'text/plain; charset=utf-8')
   robots(): string {
     // Keep staging out of the index; only allow crawling on the real domain.
-    const isProduction = process.env.NODE_ENV === 'production';
+    // Preview deployments must stay out of the index even though Vercel sets
+    // NODE_ENV=production for them too.
+    const isProduction = isProductionEnv();
     return isProduction
       ? ['User-agent: *', 'Allow: /', '', `Sitemap: ${this.siteUrl}/sitemap.xml`, ''].join('\n')
       : ['User-agent: *', 'Disallow: /', ''].join('\n');

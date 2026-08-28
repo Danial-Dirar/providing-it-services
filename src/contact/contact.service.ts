@@ -16,19 +16,28 @@ export interface StoredEnquiry extends CreateEnquiryDto {
  * Persists enquiries.
  *
  * Local development writes one JSON object per line to a dated file, which is
- * enough to prove the form works end to end without a mail server. Production
- * should add an email or CRM transport here — see handout.md.
+ * enough to prove the form works end to end without a mail server.
+ *
+ * Serverless platforms (Vercel) have a read-only filesystem, so the file write
+ * is skipped there and the enquiry is emitted as a single structured log line
+ * instead. That is recoverable but not durable — wiring an email or CRM
+ * transport here is a launch blocker for any deployment that takes real
+ * enquiries. See handout.md §5.1.
  */
 @Injectable()
 export class ContactService {
   private readonly logger = new Logger(ContactService.name);
   private readonly dir: string;
+  private readonly fileStoreEnabled: boolean;
 
   constructor(private readonly config: ConfigService) {
     this.dir = resolve(
       process.cwd(),
       this.config.get<string>('ENQUIRY_LOG_DIR') ?? './data/enquiries',
     );
+    // Vercel sets VERCEL=1 in build and runtime; its only writable path is /tmp,
+    // which does not survive the instance, so there is nothing to gain by using it.
+    this.fileStoreEnabled = !process.env.VERCEL;
   }
 
   async submit(
@@ -60,9 +69,24 @@ export class ContactService {
   }
 
   private async persist(record: StoredEnquiry): Promise<void> {
-    await mkdir(this.dir, { recursive: true });
-    const file = join(this.dir, `${record.receivedAt.slice(0, 10)}.jsonl`);
-    await appendFile(file, `${JSON.stringify(record)}\n`, 'utf8');
+    // Always emit the full record; on a read-only filesystem this is the record.
+    this.logger.log(`ENQUIRY ${JSON.stringify(record)}`);
+
+    if (!this.fileStoreEnabled) return;
+
+    try {
+      await mkdir(this.dir, { recursive: true });
+      const file = join(this.dir, `${record.receivedAt.slice(0, 10)}.jsonl`);
+      await appendFile(file, `${JSON.stringify(record)}\n`, 'utf8');
+    } catch (error) {
+      // A storage failure must never lose the enquiry behind a 500 — the caller
+      // has already been given a reference and the line above holds the data.
+      this.logger.error(
+        `Could not write enquiry ${record.reference} to ${this.dir}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   }
 
   /** Human-quotable reference, e.g. PITS-8F3K2A. */

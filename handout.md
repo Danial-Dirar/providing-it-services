@@ -1,8 +1,8 @@
 # Handout — Providing IT Services website
 
-**Last updated:** 27 August 2026
-**Status:** Complete, working site running locally. Not deployed. Content needs
-client sign-off before it goes anywhere public.
+**Last updated:** 28 August 2026
+**Status:** Complete, working site running locally. Configured for Vercel but
+not yet deployed. Content needs client sign-off before it goes anywhere public.
 
 Read this first if you are picking the project up in a new session. `README.md`
 covers how to run it; this file covers *what was decided, what is fake, and what
@@ -174,38 +174,82 @@ Ordered by what I would do next.
 ### 5.1 Contact form has no email transport — highest priority
 
 Right now `ContactService` writes enquiries to `data/enquiries/YYYY-MM-DD.jsonl`
-and logs them. That proves the pipe works but **nobody gets notified**. Before
-this site is public, add one of:
+and logs them. That proves the pipe works but **nobody gets notified**.
+
+**On Vercel the file write is disabled** (read-only filesystem), so an enquiry
+exists only as a `ENQUIRY {...}` line in the function log — which Hobby retains
+for about an hour. Until a transport is wired, the deployed form loses enquiries
+after that window. This is the blocker between "deployed" and "public". Add one
+of:
 
 - **SMTP** via `nodemailer` — simplest. Env vars are already scaffolded and
   commented out in `.env.example` (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`,
-  `SMTP_PASS`, `ENQUIRY_TO`). Add the transport inside
-  `ContactService.persist()`'s sibling — keep the file write as a fallback so a
-  mail outage never loses an enquiry.
+  `SMTP_PASS`, `ENQUIRY_TO`). Add the transport alongside
+  `ContactService.persist()`, and keep both the log line and the file write as
+  fallbacks so a mail outage never loses an enquiry.
 - **A transactional API** (Resend, Postmark, SES) — better deliverability from a
   server, and the CSP already permits `connect-src 'self'` only, which does not
-  affect server-side calls.
+  affect server-side calls. Resend is the least friction on Vercel: it installs
+  from the Vercel Marketplace and injects `RESEND_API_KEY` itself. This is the
+  recommended route.
 - **A CRM webhook** if they use HubSpot/Zoho.
 
 Also worth adding: an autoresponder to the sender quoting their `PITS-XXXXXX`
 reference. The reference is already generated and returned to the browser.
 
-### 5.2 Deployment
+### 5.2 Deployment — Vercel (wired up, not yet deployed)
 
-Nothing is deployed. Suggested shape for a Bangladeshi client:
+The repo is configured for Vercel. Everything below already exists in the tree;
+what is left is running the deploy.
 
-- **VPS** (DigitalOcean/Hetzner/local provider) with Node 22, `npm run build`,
-  `node dist/main` under **PM2** or a **systemd** unit, **nginx** in front for
-  TLS termination and as a reverse proxy.
-- Set `NODE_ENV=production` — this switches `robots.txt` from `Disallow: /` to
-  allowing crawlers, enables `upgrade-insecure-requests`, turns on 30-day static
-  asset caching, and enables `trust proxy: 1` so rate limiting counts real
-  client IPs rather than nginx's.
-- Set `SITE_URL=https://<real-domain>` — canonical tags, OG URLs, JSON-LD and the
-  sitemap all read from it.
-- Certbot for TLS.
+**How it is put together**
 
-Docker would also be fine; there is no Dockerfile yet.
+- `api/index.js` is the serverless entrypoint. It is deliberately plain
+  CommonJS: `npm run build` (tsc, via `nest build`) compiles `src/` to `dist/`
+  with `emitDecoratorMetadata` intact, which NestJS DI needs. Vercel's own
+  TypeScript path uses esbuild, which drops that metadata — so the entrypoint
+  requires the already-compiled `dist/serverless.js` rather than any `.ts`.
+- `src/create-app.ts` holds all app configuration. `src/main.ts` calls it then
+  `listen()`s (local, VPS, Docker); `src/serverless.ts` calls it then `init()`s
+  and caches the Express handler per warm instance. Both paths are configured
+  identically — there is no "Vercel-only" middleware.
+- `vercel.json` serves `public/` from the CDN (`outputDirectory: "public"`) and
+  rewrites `/assets/*` onto it, so CSS, JS, fonts and images never invoke a
+  function. Everything else falls through to `api/index`. Long cache headers are
+  set per asset type; fonts are `immutable` for a year.
+- `src/common/site-url.ts` centralises two things that NODE_ENV alone gets wrong
+  on Vercel: `isProductionEnv()` reads `VERCEL_ENV` (Vercel sets
+  `NODE_ENV=production` on previews too, which would otherwise let `robots.txt`
+  invite crawlers onto a branch preview), and `resolveSiteUrl()` falls back to
+  `VERCEL_URL` so preview canonicals point at themselves.
+- The cache-busting `buildId` uses `VERCEL_GIT_COMMIT_SHA` when present, so it
+  is stable across the instances of a single deploy rather than per cold start.
+
+**The one env var to set:** `SITE_URL`, Production environment only. Leave it
+unset for Preview. Everything else (`NODE_ENV`, `VERCEL`, `VERCEL_ENV`,
+`VERCEL_URL`, `VERCEL_GIT_COMMIT_SHA`) is supplied by the platform.
+
+**Verified locally** by running `api/index.js` against a bare `http` server with
+`VERCEL=1 VERCEL_ENV=production NODE_ENV=production` set: all routes 200,
+`/nope` 404s, `/assets/*` serves, `POST /api/contact` returns 200 with a
+reference on a read-only filesystem, canonicals use `SITE_URL`, no
+`localhost:3100` leaks into the HTML, and `robots.txt` allows crawling.
+
+**Caveats that come with serverless**
+
+- `ThrottlerModule` uses in-memory storage, so the 5-per-hour contact limit is
+  per warm instance rather than global. The honeypot and validation still hold.
+  If abuse shows up, move the throttler to Upstash Redis via the Vercel
+  Marketplace.
+- Cold starts are roughly 300–600 ms for the Nest boot. Warm requests are single
+  digit ms. Fine for a marketing site.
+- The `Logo/` directory (1.9 MB source JPEG) is in git but excluded from the
+  deploy by `.vercelignore`.
+
+**If Vercel is ever swapped for a VPS**, nothing needs undoing: `npm run build`
+then `node dist/main` still works, with PM2 or a systemd unit and nginx in front
+for TLS. Set `NODE_ENV=production` and `SITE_URL` yourself in that case. Docker
+would also be fine; there is no Dockerfile yet.
 
 ### 5.3 Things I would add next
 
@@ -333,11 +377,17 @@ in a loop crashes on macOS.
 
 ## 8. Suggested order for the next session
 
-1. Get the answers in §6 from the client.
-2. Replace the placeholder content in §4 — contact details first, then decide
+1. **Deploy to Vercel** and check the preview URL end to end (§5.2). Nothing
+   below is blocked by it, and having a real URL makes every other step easier
+   to check with the client.
+2. Wire the contact form to real email (§5.1) — Resend via the Vercel
+   Marketplace. Until this is done the deployed form loses enquiries, so do not
+   share the URL outside the team.
+3. Get the answers in §6 from the client.
+4. Replace the placeholder content in §4 — contact details first, then decide
    the fate of `/work`.
-3. Wire the contact form to real email (§5.1).
-4. Deploy to staging with `NODE_ENV=production` and a real `SITE_URL`.
-5. Cross-browser and Lighthouse pass on staging.
-6. Legal review of `/privacy` and `/terms`.
-7. Launch.
+5. Add the custom domain in Vercel, then set `SITE_URL` on Production to that
+   domain and redeploy so canonicals, OG tags, JSON-LD and the sitemap are right.
+6. Cross-browser and Lighthouse pass against the deployed URL.
+7. Legal review of `/privacy` and `/terms`.
+8. Launch.

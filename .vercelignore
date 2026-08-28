@@ -1,0 +1,9 @@
+Logo/
+data/
+test/
+coverage/
+dist/
+handout.md
+README.md
+*.log
+.DS_Store
