@@ -5,18 +5,18 @@
   <div class="shell shell--wide hero__grid">
 
     <div class="hero__copy">
-      <p class="hero__eyebrow label hero__fade" style="--i: 0">Dhaka, Bangladesh · 23.78°N 90.40°E</p>
+      <p class="hero__eyebrow label hero__fade" style="--i: 0">New York, USA · 40.71°N 74.01°W</p>
 
       <h1 class="hero__title t-hero">
         <span class="reveal-line" style="--i: 0"><span>Six practices.</span></span>
-        <span class="reveal-line" style="--i: 1"><span>One floor in <em>Dhaka</em>.</span></span>
+        <span class="reveal-line" style="--i: 1"><span>One floor in <em>New York</em>.</span></span>
         <span class="reveal-line" style="--i: 2"><span>Every hour of your day.</span></span>
       </h1>
 
       <p class="lede hero__lede hero__fade" style="--i: 1">
         Web platforms, data pipelines, support desks and the operations teams behind
-        them — built and run by one accountable group, in a time zone that reaches
-        London, Dubai, Singapore and Sydney inside the same working day.
+        them — built and run by one accountable group, from a time zone that opens on
+        London and is still working when San Francisco closes.
       </p>
 
       <div class="hero__actions hero__fade" style="--i: 2">
@@ -36,13 +36,13 @@
       </ul>
     </div>
 
-    {{!-- The meridian: a globe of hairline meshwork with Dhaka as the origin
+    {{!-- The meridian: a globe of hairline meshwork with New York as the origin
           node and live pulses running out to each delivery hub. --}}
     <div class="hero__meridian hero__fade" style="--i: 2">
       <div class="meridian" data-meridian data-hubs="{{json hubs}}">
         <canvas class="meridian__canvas" data-meridian-canvas aria-hidden="true"></canvas>
         <p class="meridian__readout">
-          <span>Origin · <strong>Dhaka</strong></span>
+          <span>Origin · <strong>New York</strong></span>
           <span>Routes active · <strong data-meridian-count>5</strong></span>
         </p>
       </div>
@@ -114,13 +114,13 @@
       <div class="section__head" data-reveal>
         <span class="label">Coverage</span>
         <h2 class="t-xl">How much of your day we are already awake for</h2>
-        <p class="lede">Dhaka runs 09:00 to 18:00, GMT+6. Your browser knows where you are, so the band below is your working day against ours — no form, no sales call.</p>
+        <p class="lede">New York runs 09:00 to 18:00 Eastern. Your browser knows where you are, so the band below is your working day against ours — no form, no sales call.</p>
       </div>
 
       <div class="coverage__now" data-reveal style="--i: 1">
-        <div class="is-dhaka">
-          <span class="label">Dhaka now</span>
-          <b data-coverage-dhaka>--:--</b>
+        <div class="is-office">
+          <span class="label">New York now</span>
+          <b data-coverage-office>--:--</b>
         </div>
         <div class="is-you">
           <span class="label">You now</span>
@@ -134,7 +134,7 @@
         <span>Your local hours, 00 → 23</span>
         <span data-coverage-zone>Detecting time zone…</span>
       </div>
-      <div class="band__row" data-coverage-cells role="img" aria-label="Working-hour overlap between Dhaka and your location"></div>
+      <div class="band__row" data-coverage-cells role="img" aria-label="Working-hour overlap between New York and your location"></div>
       <div class="band__hours" data-coverage-hours aria-hidden="true"></div>
     </div>
 
@@ -148,7 +148,7 @@
         <div class="hub" data-hub-zone="{{this.zone}}">
           <span class="hub__city">{{this.name}}</span>
           <span class="hub__time">--:--</span>
-          <span class="hub__delta">Dhaka {{#if (eq this.offset 0)}}same{{else}}{{this.offset}}h{{/if}}</span>
+          <span class="hub__delta" data-hub-delta>{{#if (eq this.offset 0)}}same{{else}}{{this.offset}}h{{/if}}</span>
         </div>
       {{/each}}
     </div>

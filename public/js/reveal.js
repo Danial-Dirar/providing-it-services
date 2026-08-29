@@ -35,7 +35,7 @@ export function initReveal() {
 
 /**
  * Counts a numeric stat up to its final value once it scrolls in.
- * Values that are not plain numbers (GMT+6, "30 days") are left alone.
+ * Values that are not plain numbers (ET, "30 days") are left alone.
  */
 export function initCounters() {
   const values = [...document.querySelectorAll('.stat__value')];

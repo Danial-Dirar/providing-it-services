@@ -2,7 +2,7 @@
    Providing IT Services — design system
    --------------------------------------------------------------------------
    Direction: "The Meridian". The logo is a globe with a signal radiating from
-   one node on it; the business is a Dhaka team whose working day overlaps four
+   one node on it; the business is a New York team whose working day overlaps four
    continents. Both ideas resolve into the same visual language — an origin
    node, arcs leaving it, and a hairline mesh that behaves like stitching.
 
@@ -528,7 +528,7 @@ h4, h5, h6 {
 @media (min-width: 64rem) { .header__aside { display: flex; } }
 @media (min-width: 64rem) { .nav { margin-left: auto; } .header__aside { margin-left: 0; } }
 
-/* Live Dhaka clock in the header. Small, constant, and the first hint of the
+/* Live New York clock in the header. Small, constant, and the first hint of the
    time-zone idea the page is built around. */
 .clock-chip {
   display: inline-flex;
@@ -752,7 +752,7 @@ body.is-locked { overflow: hidden; }
   background: rgba(35, 185, 221, 0.07);
 }
 
-/* The meridian: canvas globe with arcs firing from Dhaka to the hub cities. */
+/* The meridian: canvas globe with arcs firing from New York to the hub cities. */
 .meridian {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -981,10 +981,10 @@ body.is-locked { overflow: hidden; }
   line-height: 1;
   letter-spacing: -0.01em;
 }
-.coverage__now .is-dhaka b { color: var(--signal); }
+.coverage__now .is-office b { color: var(--signal); }
 .coverage__now .is-you b { color: var(--saffron); }
 
-/* The band: 24 hourly cells. Dhaka working hours are marked in signal, the
+/* The band: 24 hourly cells. New York working hours are marked in signal, the
    visitor's in saffron, and the overlap gets both. Everything is computed live
    in the browser from the visitor's own clock. */
 .band {
@@ -1022,7 +1022,7 @@ body.is-locked { overflow: hidden; }
 }
 .band__cell:last-child { border-right: 0; }
 .band__cell[data-on='off'] { background: rgba(146, 190, 219, 0.04); }
-.band__cell[data-on='dhaka'] { background: rgba(35, 185, 221, 0.32); }
+.band__cell[data-on='office'] { background: rgba(35, 185, 221, 0.32); }
 .band__cell[data-on='you'] { background: rgba(232, 163, 61, 0.3); }
 .band__cell[data-on='both'] {
   background: linear-gradient(

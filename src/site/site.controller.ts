@@ -19,9 +19,9 @@ export class SiteController {
     return {
       page: 'home',
       meta: {
-        title: 'Providing IT Services — Software, data and operations from Dhaka',
+        title: 'Providing IT Services — Software, data and operations from New York',
         description:
-          'A Dhaka-based technology services firm building software, data platforms and back-office operations for companies in Bangladesh and abroad. Web development, data analytics, ITeS, IT consultancy, BPO and business development.',
+          'A New York-based technology services firm building software, data platforms and back-office operations for companies across the United States and abroad. Web development, data analytics, ITeS, IT consultancy, BPO and business development.',
       },
       services: this.content.services,
       industries: this.content.industries,
@@ -46,7 +46,7 @@ export class SiteController {
       hero: {
         eyebrow: 'Services',
         title: 'Six practices, one accountable team',
-        lede: 'Most firms sell you one of these and subcontract the rest. We run all six from the same floor in Dhaka, which is why a data problem that turns out to be a process problem does not become a new procurement exercise.',
+        lede: 'Most firms sell you one of these and subcontract the rest. We run all six from the same floor in Lower Manhattan, which is why a data problem that turns out to be a process problem does not become a new procurement exercise.',
       },
       services: this.content.services,
       process: this.content.process,
@@ -79,7 +79,7 @@ export class SiteController {
       meta: {
         title: 'Industries — Providing IT Services',
         description:
-          'Sector experience across banking and fintech, apparel and manufacturing, telecom, healthcare, e-commerce, logistics, education and the development sector.',
+          'Sector experience across banking and fintech, media and publishing, telecom, healthcare, e-commerce, logistics, education and the nonprofit sector.',
       },
       hero: {
         eyebrow: 'Industries',
@@ -99,7 +99,7 @@ export class SiteController {
       meta: {
         title: 'Work — Providing IT Services',
         description:
-          'Selected engagements in banking, manufacturing and SaaS support operations, with the numbers that came out of them.',
+          'Selected engagements in lending, logistics and SaaS support operations, with the numbers that came out of them.',
       },
       hero: {
         eyebrow: 'Work',
@@ -132,12 +132,12 @@ export class SiteController {
       meta: {
         title: 'About — Providing IT Services',
         description:
-          'Who we are, how we work, and what we commit to in writing. A technology services firm based in Banani, Dhaka.',
+          'Who we are, how we work, and what we commit to in writing. A technology services firm based in Lower Manhattan, New York.',
       },
       hero: {
         eyebrow: 'About',
         title: 'A services firm that puts its commitments in writing',
-        lede: 'We started in Dhaka with a straightforward view: most outsourcing relationships fail on communication rather than capability. Everything about how we run engagements follows from that.',
+        lede: 'We started in New York with a straightforward view: most services relationships fail on communication rather than capability. Everything about how we run engagements follows from that.',
       },
       principles: this.content.principles,
       stats: this.content.stats,
@@ -154,7 +154,7 @@ export class SiteController {
       meta: {
         title: 'Careers — Providing IT Services',
         description:
-          'Open roles in engineering, analytics and operations at Providing IT Services in Banani, Dhaka.',
+          'Open roles in engineering, analytics and operations at Providing IT Services in Lower Manhattan, New York.',
       },
       hero: {
         eyebrow: 'Careers',

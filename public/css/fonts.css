@@ -2,7 +2,7 @@
    Self-hosted webfonts
    --------------------------------------------------------------------------
    Served from this origin rather than Google Fonts: one less third-party
-   request, no cross-origin render-blocking stylesheet, faster from Bangladesh,
+   request, no cross-origin render-blocking stylesheet, faster on a cold visit,
    and it keeps the privacy notice honest.
 
    Archivo and IBM Plex Sans are variable (Archivo carries both wdth and wght,

@@ -1,8 +1,17 @@
 # Handout — Providing IT Services website
 
-**Last updated:** 28 August 2026
+**Last updated:** 29 August 2026
 **Status:** Complete, working site running locally. Configured for Vercel but
 not yet deployed. Content needs client sign-off before it goes anywhere public.
+
+**Relocated to New York on 29 August 2026.** The site was originally written for
+a Dhaka firm. Everything that carried the old location has moved — office
+details, hours, working week, hub roster, industries, all three case studies,
+every role, the legal governing law, the JSON-LD, and both live instruments.
+Two of those were logic changes rather than copy changes, and are the things
+most likely to bite: Eastern time observes daylight saving where UTC+6 did not,
+and New York sits 17° further north, which changed the globe's composition.
+Both are covered in §3.
 
 Read this first if you are picking the project up in a new session. `README.md`
 covers how to run it; this file covers *what was decided, what is fake, and what
@@ -71,7 +80,8 @@ Worth understanding before changing anything visual, because the pieces are
 connected.
 
 The logo is a globe with a signal radiating from one node. The business is a
-Dhaka team whose working day overlaps four continents. Those are the same idea,
+New York team whose working day runs from the London afternoon to the San
+Francisco close. Those are the same idea,
 so the whole site is built on it: an origin node, arcs leaving it, and a hairline
 mesh that behaves like stitching.
 
@@ -92,9 +102,15 @@ process section *is* a sequence, so it is the only place numbering appears.
 **The two signature pieces:**
 
 1. **The Meridian** — hero canvas. Real coordinates, real great circles, globe
-   rocks ±34° so Dhaka never rotates out of view.
+   rocks ±34° so New York never rotates out of view. The pitch was flattened
+   from -16° to -4° when the origin moved: New York is at 40.7°N against the
+   old origin's 23.8°N, and the original tilt pushed it out to 84% of the
+   globe's radius — pinned against the rim with the lower half empty.
 2. **The coverage instrument** — 24-cell band reading the visitor's own time
-   zone and showing how many of *their* working hours overlap Dhaka's. It is the
+   zone and showing how many of *their* working hours overlap New York's. Note
+   that Eastern time observes daylight saving where the previous origin did
+   not, so the office offset is now read live from `America/New_York` rather
+   than hardcoded — see `public/js/clock.js`. It is the
    one thing on the page that talks about the reader instead of the company, and
    it is the strongest sales argument on the site. Don't remove it.
 
@@ -114,17 +130,17 @@ plausible invention, not fact.** All of it lives in
 | Item | Current value | Needs |
 |---|---|---|
 | Phone | `+880 1XXX-XXXXXX` | The real number |
-| Address | Level 5, House 32, Road 11, Banani, Dhaka 1213 | The real address |
+| Address | Suite 1400, 25 Broadway, New York, NY 10004 | The real address |
 | Founded | `2019` | The real year |
 | Emails | `hello@`, `newbusiness@`, `careers@providingitservices.com` | Confirm the domain and that these mailboxes exist |
 | Social links | LinkedIn / GitHub / Facebook slugs are guesses | Real URLs, or delete the rows |
-| Google Maps link | Points at "Banani, Dhaka" generally | Real pin |
+| Google Maps link | Points at 25 Broadway generally | Real pin |
 
 ### Case studies — `caseStudies` array
 
-All three are **invented**: the NBFI reporting platform, the Gazipur garment
-manufacturer, the European SaaS support desk. The numbers in them
-(11 days → 2, 4 hrs → 15 min, 6 hrs → 41 min, 72%, 600+ operators) are
+All three are **invented**: the specialty-lender reporting platform, the
+tri-state 3PL operator, the US SaaS support desk. The numbers in them
+(11 days → 2, 4 hrs → 15 min, 6 hrs → 41 min, 72%, 300+ floor staff) are
 fabricated.
 
 Two honest options:
@@ -138,10 +154,12 @@ Two honest options:
 
 ### Stats strip — `stats` array
 
-`6 practices` and `GMT+6` are true. `4 continents served` and `30-day defect
+`6 practices` and `ET` are true. `3 continents served` and `30-day defect
 warranty` are claims the client has to actually stand behind. The warranty in
 particular appears in three places and is written as a contractual commitment —
-confirm it is one.
+confirm it is one. The continent count is tied to the hub roster (San Francisco,
+Chicago, Toronto, São Paulo, London) — if that roster changes, change the stat
+with it.
 
 ### Open roles — `roles` array
 
@@ -159,7 +177,7 @@ values statements, which would waste the strongest writing on the site.
 ### Legal pages
 
 `/privacy` and `/terms` are drafted in plain English and are structurally sound,
-but **a Bangladeshi lawyer needs to review them**. Both pages say so at the top;
+but **a New York attorney needs to review them**. Both pages say so at the top;
 remove that line once reviewed. The privacy notice correctly describes what the
 site actually does today (no cookies, no analytics, no third-party requests at
 all, time zone read locally and never sent) — if anyone adds analytics or a
@@ -272,10 +290,10 @@ would also be fine; there is no Dockerfile yet.
 - **Analytics**, if the client wants it. Plausible or Umami are cookieless and
   keep the privacy notice honest. Anything you add needs a CSP `connect-src`
   entry and a line in `/privacy`.
-- **Bangla language version.** Likely to come up. The content service is already
-  the single source of truth, so the clean route is `ContentService` returning
-  per-locale content and a `/bn` route prefix. Worth planning before more copy
-  is written.
+- **Spanish language version.** Plausible for a New York services firm. The
+  content service is already the single source of truth, so the clean route is
+  `ContentService` returning per-locale content and an `/es` route prefix.
+  Worth planning before more copy is written.
 - **A blog / insights section.** Good for SEO in a competitive category.
   Markdown files + a small content loader would fit the existing architecture.
 - **Real photography.** There are currently zero photographs on the site. That
@@ -320,7 +338,7 @@ Worth getting answers before the next build session:
 4. Which roles are genuinely open?
 5. Where will this be hosted, and do they already own
    `providingitservices.com` (or which domain)?
-6. Do they want Bangla alongside English?
+6. Do they want Spanish alongside English?
 7. Who receives contact-form enquiries, and do they have a mail service already?
 
 ---
@@ -351,7 +369,7 @@ So the next session knows what has and has not been verified.
   Roughly a dozen layout bugs were found and fixed this way — an empty-grid-cell
   slab in the industries and hub grids, a headline overflowing into five wrapped
   lines, a checklist marker that read as a strikethrough, misaligned bullets,
-  an inverted rotation in the globe that put Dhaka on the far side, route arcs
+  an inverted rotation in the globe that put the origin on the far side, route arcs
   flying out of frame, and a footer wordmark clipped mid-word.
 - `prefers-reduced-motion` path renders everything visible with no animation.
 - Response times ~5–10 ms locally; CSS 11.6 KB gzipped, JS ~11 KB gzipped,
@@ -360,6 +378,12 @@ So the next session knows what has and has not been verified.
   files, so the variable-font axes really are working.
 
 **Not verified:**
+- **Nothing has been re-checked visually since the move to New York.** The QC
+  in this section was done against the Dhaka build. The hero globe in
+  particular changed shape — new origin latitude, new hub set, flatter pitch —
+  and was tuned numerically (origin stays on the front face at 82% of radius,
+  all five hubs visible 61–100% of the cycle, no arc leaves the canvas) rather
+  than by eye. Take screenshots before showing anyone.
 - Never opened in Safari, Firefox or a real iOS/Android device. Screenshots were
   taken through Electron (Chromium) because Chrome and Playwright's browser
   download are both blocked on this network. **Do a real cross-browser pass

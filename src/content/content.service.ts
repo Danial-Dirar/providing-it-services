@@ -71,7 +71,11 @@ export interface Role {
 
 export interface HubCity {
   name: string;
-  /** Hours offset from Dhaka (UTC+6). Negative = behind Dhaka. */
+  /**
+   * Approximate hours offset from New York, used as the server-rendered
+   * fallback label. New York observes daylight saving, so the live value is
+   * recomputed in the browser from the IANA zone — see public/js/clock.js.
+   */
   offset: number;
   /** IANA zone, used for the live clock strip. */
   zone: string;
@@ -86,19 +90,25 @@ export class ContentService {
     legalName: 'Providing IT Services',
     founded: '2019',
     description:
-      'A Dhaka-based technology services firm building software, data platforms and back-office operations for companies in Bangladesh and abroad.',
+      'A New York-based technology services firm building software, data platforms and back-office operations for companies across the United States and abroad.',
     address: {
-      line1: 'Level 5, House 32, Road 11',
-      line2: 'Banani, Dhaka 1213',
-      country: 'Bangladesh',
-      maps: 'https://maps.google.com/?q=Banani,+Dhaka+1213,+Bangladesh',
+      line1: 'Suite 1400, 25 Broadway',
+      line2: 'New York, NY 10004',
+      country: 'United States',
+      // Structured parts so the JSON-LD block does not repeat the address in a
+      // second place and quietly drift from this one.
+      locality: 'New York',
+      region: 'NY',
+      postalCode: '10004',
+      countryCode: 'US',
+      maps: 'https://maps.google.com/?q=25+Broadway,+New+York,+NY+10004',
     },
-    phone: '+880 1XXX-XXXXXX',
-    phoneHref: '+8801XXXXXXXXX',
+    phone: '+1 (212) XXX-XXXX',
+    phoneHref: '+1212XXXXXXX',
     email: 'hello@providingitservices.com',
     salesEmail: 'newbusiness@providingitservices.com',
     careersEmail: 'careers@providingitservices.com',
-    hours: 'Sunday – Thursday, 09:00 – 18:00 (GMT+6)',
+    hours: 'Monday – Friday, 09:00 – 18:00 (ET)',
     social: [
       { name: 'LinkedIn', href: 'https://www.linkedin.com/company/providing-it-services' },
       { name: 'GitHub', href: 'https://github.com/providing-it-services' },
@@ -106,13 +116,16 @@ export class ContentService {
     ],
   };
 
-  /** Cities we quote delivery overlap against. Offsets are from Dhaka (UTC+6). */
+  /**
+   * Cities we quote delivery overlap against. Offsets are hours from New York
+   * and are only the pre-JS fallback; the browser recomputes them live.
+   */
   readonly hubs: HubCity[] = [
-    { name: 'London', offset: -5, zone: 'Europe/London' },
-    { name: 'New York', offset: -10, zone: 'America/New_York' },
-    { name: 'Dubai', offset: -2, zone: 'Asia/Dubai' },
-    { name: 'Singapore', offset: 2, zone: 'Asia/Singapore' },
-    { name: 'Sydney', offset: 4, zone: 'Australia/Sydney' },
+    { name: 'San Francisco', offset: -3, zone: 'America/Los_Angeles' },
+    { name: 'Chicago', offset: -1, zone: 'America/Chicago' },
+    { name: 'Toronto', offset: 0, zone: 'America/Toronto' },
+    { name: 'São Paulo', offset: 1, zone: 'America/Sao_Paulo' },
+    { name: 'London', offset: 5, zone: 'Europe/London' },
   ];
 
   readonly nav: NavItem[] = [
@@ -208,7 +221,7 @@ export class ContentService {
       ],
       faqs: [
         { q: 'Our data is a mess. Is it too early?', a: 'No — that is the normal starting condition. The assessment exists precisely to tell you what has to be cleaned first and what can wait.' },
-        { q: 'Cloud or on-premise?', a: 'Both. Regulated clients in Bangladesh frequently need on-premise or in-country hosting, and we design for that constraint from the start.' },
+        { q: 'Cloud or on-premise?', a: 'Both. Regulated clients frequently need on-premise deployment or data pinned to a named US region, and we design for that constraint from the start rather than retrofitting it.' },
         { q: 'Will our team be able to maintain it?', a: 'That is the point of the handover. We train your analysts on the models and leave the transformation layer in plain, reviewed SQL rather than a proprietary tool.' },
       ],
     },
@@ -253,7 +266,7 @@ export class ContentService {
       faqs: [
         { q: 'How do you handle our data securely?', a: 'Dedicated workstations, restricted floors, no removable media, NDAs at the individual operator level, and access scoped per project. Client-specific controls are written into the SLA.' },
         { q: 'What accuracy can you commit to?', a: 'It depends on the process complexity — the pilot tells us both. Typical structured data-entry SLAs land at 99.5% field-level accuracy, verified by daily sampling.' },
-        { q: 'Can you cover our business hours?', a: 'Yes. Dhaka overlaps a full working day with Europe, Asia-Pacific and the Gulf, and we run shifted teams for North American hours.' },
+        { q: 'Can you cover our business hours?', a: 'Yes. Eastern time covers the entire US business day and the European afternoon from one desk, and we run early and late rosters when an account needs the West Coast close or a European morning.' },
       ],
     },
     {
@@ -304,9 +317,9 @@ export class ContentService {
       code: 'BP',
       slug: 'business-process-outsourcing',
       title: 'Business Process Outsourcing',
-      tagline: 'Run a function from Dhaka at a cost that changes the business case.',
+      tagline: 'Hand over a whole function to a named team that works your hours and answers to your SLA.',
       intro:
-        'BPO is a staffing decision with an operational risk attached. We take on complete functions — customer support, finance operations, HR administration, lead qualification — recruit and train against your standards, and manage them to an SLA you set. You keep the process ownership; we carry the hiring, attrition and floor management.',
+        'BPO is a staffing decision with an operational risk attached. We take on complete functions — customer support, finance operations, HR administration, lead qualification — recruit and train against your standards, and manage them to an SLA you set. The team sits in New York on your business hours, which is the difference between an escalation handled this afternoon and one handled overnight by someone you cannot reach. You keep the process ownership; we carry the hiring, attrition and floor management.',
       deliverables: [
         'Customer support and service desk (voice, email, chat)',
         'Finance and accounting operations',
@@ -336,25 +349,25 @@ export class ContentService {
       engagements: [
         { name: 'Seat-based team', body: 'Monthly per-seat pricing including recruitment, training, floor space, management and equipment.' },
         { name: 'Transaction pricing', body: 'Pricing per ticket, per invoice or per record, where the volume is predictable enough to price it.' },
-        { name: 'Build-operate-transfer', body: 'We build and run the team, then transfer it to your own Bangladesh entity on an agreed date.' },
+        { name: 'Build-operate-transfer', body: 'We build and run the team, then transfer it onto your own payroll on an agreed date.' },
       ],
       faqs: [
         { q: 'How fast can a team start?', a: 'Four to eight weeks from signed scope, depending on headcount and how specialised the profile is. Transition runs in parallel with the last two.' },
-        { q: 'What about attrition?', a: 'We carry it. Backfills are our cost and our problem, with a replacement-time commitment written into the SLA.' },
-        { q: 'Can the team work our hours?', a: 'Yes. We run shifted rosters including night shifts for North American coverage, with the shift premium priced transparently.' },
+        { q: 'What about attrition?', a: 'We carry it. Backfills are our cost and our problem, with a replacement-time commitment written into the SLA. The team are our W-2 employees, so co-employment questions do not land on you.' },
+        { q: 'Can the team work our hours?', a: 'Eastern time is the default. We run early, late and weekend rosters where the volume justifies them, with the shift premium priced transparently rather than buried in the seat rate.' },
       ],
     },
     {
       code: 'BD',
       slug: 'business-development',
       title: 'Business Development',
-      tagline: 'Market entry and pipeline support for companies moving into or out of Bangladesh.',
+      tagline: 'Market entry and pipeline support for companies landing in the US, and US companies opening the next region.',
       intro:
-        'Two kinds of company come to this practice: international firms trying to enter or source from Bangladesh, and Bangladeshi firms trying to sell abroad. Both need the same things — a credible market read, the right introductions, and someone on the ground who answers the phone. We provide all three.',
+        'Two kinds of company come to this practice: international firms opening a US presence and using New York as the beachhead, and US firms pushing into a new vertical or region. Both need the same three things — a credible market read, the right introductions, and someone on the ground who answers the phone in your time zone. We provide all three.',
       deliverables: [
         'Market entry research and feasibility studies',
         'Partner and vendor identification and vetting',
-        'Local entity, licensing and compliance navigation',
+        'US entity formation, licensing and state registration navigation',
         'Outbound pipeline development and lead qualification',
         'Bid, proposal and tender support',
         'Representation and account management on the ground',
@@ -370,12 +383,12 @@ export class ContentService {
         },
         {
           heading: 'A named person on the ground',
-          body: 'One accountable contact in Dhaka for the whole engagement. Time-zone distance is hard enough without a rotating cast.',
+          body: 'One accountable contact in New York for the whole engagement, in the room when it matters. A rotating cast is how context gets lost between quarters.',
         },
       ],
       stack: [
-        'HubSpot', 'Apollo', 'LinkedIn Sales Navigator', 'BIDA advisory network',
-        'BASIS and sector association channels', 'Primary field research',
+        'HubSpot', 'Apollo', 'LinkedIn Sales Navigator', 'SelectUSA and state EDC channels',
+        'Chamber and sector association networks', 'Primary field research',
       ],
       engagements: [
         { name: 'Market entry study', body: 'A fixed-scope research engagement ending in a written go / no-go with sizing and cost assumptions.' },
@@ -384,8 +397,8 @@ export class ContentService {
       ],
       faqs: [
         { q: 'Do you take commission on deals?', a: 'Retainer and success-fee structures are both available. We will tell you which one aligns better with your situation, including when that is the cheaper one for you.' },
-        { q: 'Can you help us set up an entity?', a: 'We navigate the process and coordinate the legal and accounting firms who execute it. We do not practise law, and we will not pretend otherwise.' },
-        { q: 'What sectors do you know best?', a: 'Software and ITeS sourcing, textiles and apparel supply chains, and light manufacturing. Outside those, we say so and scope more research time.' },
+        { q: 'Can you help us set up a US entity?', a: 'We navigate the process and coordinate the law and accounting firms who execute it — incorporation, state registrations, EIN, banking. We do not practise law, and we will not pretend otherwise.' },
+        { q: 'What sectors do you know best?', a: 'Financial services and fintech, B2B software, and media and publishing — the industries New York actually runs on. Outside those, we say so and scope more research time.' },
       ],
     },
   ];
@@ -394,14 +407,14 @@ export class ContentService {
     {
       slug: 'banking-and-fintech',
       name: 'Banking & Fintech',
-      body: 'Regulated environments where the audit trail matters as much as the feature. We work inside Bangladesh Bank guidance and the data-residency constraints that come with it.',
-      needs: ['Core system integration', 'Regulatory reporting', 'Agent banking tooling', 'Fraud analytics'],
+      body: 'Regulated environments where the audit trail matters as much as the feature. We build to NYDFS Part 500, SOC 2 and FFIEC expectations, and to the evidence a regulator asks for rather than the summary.',
+      needs: ['Core system integration', 'Regulatory reporting', 'KYC and onboarding tooling', 'Fraud analytics'],
     },
     {
-      slug: 'apparel-and-manufacturing',
-      name: 'Apparel & Manufacturing',
-      body: 'Bangladesh’s largest export sector runs on spreadsheets it has outgrown. We replace them with systems that survive a peak season.',
-      needs: ['Production floor tracking', 'Buyer compliance reporting', 'Supply-chain visibility', 'Costing and margin analytics'],
+      slug: 'media-and-publishing',
+      name: 'Media & Publishing',
+      body: 'Newsrooms, imprints and studios running on editorial systems assembled a decade ago. Rights, royalties and audience data usually live in three places that disagree.',
+      needs: ['Editorial and CMS platforms', 'Rights and royalty systems', 'Audience and subscription analytics', 'Archive digitisation'],
     },
     {
       slug: 'telecom',
@@ -412,8 +425,8 @@ export class ContentService {
     {
       slug: 'healthcare',
       name: 'Healthcare',
-      body: 'Patient data, clinical workflow and the administrative weight around both. Built with access control as a starting assumption rather than a later hardening pass.',
-      needs: ['Patient record systems', 'Appointment and billing workflow', 'Claims processing', 'Diagnostic data pipelines'],
+      body: 'Patient data, clinical workflow and the administrative weight around both. HIPAA and the associated audit obligations are a starting assumption here, not a later hardening pass.',
+      needs: ['EHR and record integration', 'Appointment and billing workflow', 'Claims and revenue-cycle processing', 'Diagnostic data pipelines'],
     },
     {
       slug: 'ecommerce-and-retail',
@@ -430,35 +443,35 @@ export class ContentService {
     {
       slug: 'education',
       name: 'Education & EdTech',
-      body: 'Platforms that must work on a mid-range Android phone over a patchy connection, because that is what the students actually have.',
+      body: 'Platforms measured by whether a student on a five-year-old phone and school Wi-Fi can finish the task. District procurement and accessibility rules decide the rest.',
       needs: ['Learning platforms', 'Admissions and student records', 'Assessment analytics', 'Content operations'],
     },
     {
-      slug: 'development-sector',
-      name: 'Development Sector & NGOs',
-      body: 'Donor-funded programmes with strict reporting obligations and field teams working offline. Monitoring systems built for the constraints of the last mile.',
-      needs: ['Monitoring and evaluation systems', 'Offline-first field data capture', 'Donor reporting', 'Beneficiary data management'],
+      slug: 'nonprofits-and-foundations',
+      name: 'Nonprofits & Foundations',
+      body: 'Grant-funded programmes carrying restricted-fund reporting, a board that needs the numbers quarterly, and a budget that cannot absorb a failed platform. New York runs a lot of these.',
+      needs: ['Grants and programme management', 'Donor and CRM data', 'Restricted-fund and impact reporting', 'Case and beneficiary records'],
     },
   ];
 
   readonly caseStudies: CaseStudy[] = [
     {
-      slug: 'nbfi-reporting-platform',
-      client: 'A Dhaka-based non-bank financial institution',
+      slug: 'specialty-lender-reporting',
+      client: 'A New York specialty lender',
       sector: 'Banking & Fintech',
       title: 'Twelve spreadsheets, one regulatory report',
       summary:
-        'Monthly regulatory reporting took four analysts eleven days and still arrived with reconciliation gaps. We consolidated the sources and automated the submission pack.',
+        'Quarterly regulatory reporting took four analysts eleven days and still arrived with reconciliation gaps. We consolidated the sources and automated the submission pack.',
       challenge:
-        'Reporting data lived in the core banking system, three departmental spreadsheets and a legacy loan-origination database that nobody wanted to touch. Every month the same reconciliation argument happened, and every month it delayed the submission.',
+        'Reporting data lived in the core servicing platform, three departmental spreadsheets and a legacy origination database that nobody wanted to touch. Every quarter the same reconciliation argument happened, and every quarter it pushed the filing to the last possible day.',
       approach: [
         'Mapped every field in the regulatory return back to a source system and documented the ones with no owner.',
-        'Built a warehouse layer with the core banking extract, the loan database and the departmental inputs landing on a nightly schedule.',
+        'Built a warehouse layer with the servicing extract, the origination database and the departmental inputs landing on a nightly schedule.',
         'Put freshness and row-count checks on every load, with alerts to a named person rather than a shared inbox.',
-        'Rebuilt the submission pack as a generated document with drill-through to the underlying records.',
+        'Rebuilt the submission pack as a generated document with drill-through to the underlying records, so an examiner question resolves in minutes.',
       ],
       outcome: [
-        { metric: '11 days → 2', label: 'Monthly reporting cycle' },
+        { metric: '11 days → 2', label: 'Quarterly reporting cycle' },
         { metric: '4 → 1', label: 'Analysts on the process' },
         { metric: '100%', label: 'Fields traceable to source' },
       ],
@@ -466,41 +479,41 @@ export class ContentService {
       duration: '14 weeks',
     },
     {
-      slug: 'apparel-production-tracking',
-      client: 'A woven garment manufacturer, Gazipur',
-      sector: 'Apparel & Manufacturing',
+      slug: 'warehouse-order-visibility',
+      client: 'A tri-state third-party logistics operator',
+      sector: 'Logistics & Distribution',
       title: 'Knowing where the order actually is',
       summary:
-        'Production status was accurate at the end of the day and guesswork before it. We put line-level tracking in the operators’ hands and gave merchandisers a live view.',
+        'Order status was accurate at the end of the shift and guesswork before it. We put dock-level tracking in the floor team’s hands and gave account managers a live view.',
       challenge:
-        'Merchandisers answered buyer questions from a spreadsheet updated once daily, which meant every escalation started with a phone call to the floor. Shipment risk surfaced days after it became unavoidable.',
+        'Account managers answered customer questions from a spreadsheet updated once a shift, which meant every escalation started with a phone call to the warehouse. Missed delivery windows surfaced days after they became unavoidable.',
       approach: [
-        'Ran two weeks on the floor with supervisors before designing anything, then built to what the line actually does.',
-        'Shipped an Android-first tracking app that works offline and syncs when the floor Wi-Fi reaches it.',
-        'Built a merchandiser dashboard showing order progress against plan, with a risk flag driven by cumulative variance.',
-        'Trained supervisors on-site across two shifts and left a runbook in Bangla and English.',
+        'Ran two weeks on the floor with supervisors before designing anything, then built to what the dock actually does.',
+        'Shipped a handheld-first tracking app that works offline and syncs when the warehouse Wi-Fi reaches it.',
+        'Built an account-manager dashboard showing order progress against plan, with a risk flag driven by cumulative variance.',
+        'Trained supervisors on-site across two shifts and left a runbook the floor leads maintain themselves.',
       ],
       outcome: [
         { metric: '4 hrs → 15 min', label: 'Status data latency' },
         { metric: '9 days', label: 'Average earlier warning on at-risk orders' },
-        { metric: '600+', label: 'Operators on the system' },
+        { metric: '300+', label: 'Floor staff on the system' },
       ],
       services: ['Web & Software Development', 'IT Enabled Services'],
       duration: '20 weeks',
     },
     {
       slug: 'saas-support-desk',
-      client: 'A European B2B SaaS company',
-      sector: 'E-commerce & Retail',
-      title: 'A support desk that closed the European afternoon gap',
+      client: 'A US B2B SaaS company',
+      sector: 'B2B Software',
+      title: 'A support desk that closed the coast-to-coast gap',
       summary:
-        'A twelve-person support team in Dhaka took first-line volume for a European product, cutting first-response time and freeing the in-house team for escalations.',
+        'A twelve-person support team in New York took first-line volume for a nationwide product, cutting first-response time and freeing the in-house team for escalations.',
       challenge:
-        'The in-house team was spending its day on password resets and configuration questions, and the backlog reliably peaked at 4pm CET when nobody had capacity left to clear it.',
+        'The in-house team was spending its day on password resets and configuration questions, and the backlog reliably peaked at 4pm Pacific — 7pm in New York, when the product team had already logged off.',
       approach: [
         'Ran a four-week pilot with three agents to establish real handle time and quality before committing headcount.',
         'Documented the top forty ticket types as runbooks, reviewed and signed off by the client’s support lead.',
-        'Scaled to twelve agents on a shifted roster covering 07:00 to 21:00 CET.',
+        'Scaled to twelve agents on a staggered roster covering 07:00 to 21:00 Eastern, so the Pacific afternoon is still staffed.',
         'Reported volume, first-response time and quality score weekly, with a monthly review of the runbook set.',
       ],
       outcome: [
@@ -565,7 +578,7 @@ export class ContentService {
       title: 'Senior Backend Engineer',
       practice: 'Web & Software Development',
       type: 'Full-time',
-      location: 'Banani, Dhaka · Hybrid',
+      location: 'Manhattan, New York · Hybrid',
       level: '5+ years',
       summary:
         'Own the server side of client platforms end to end — schema, API, deployment and the on-call that follows. You will be the most senior engineer on at least one account.',
@@ -579,7 +592,7 @@ export class ContentService {
         'Five or more years building production backend systems',
         'Deep Node.js or PHP, and fluency in relational data modelling',
         'Experience running what you built in production, not just shipping it',
-        'Written English strong enough for direct client correspondence',
+        'Writing clear enough to correspond with a client sponsor without a translator layer',
       ],
     },
     {
@@ -587,7 +600,7 @@ export class ContentService {
       title: 'Data Analyst',
       practice: 'Data & Analytics',
       type: 'Full-time',
-      location: 'Banani, Dhaka · Hybrid',
+      location: 'Manhattan, New York · Hybrid',
       level: '2+ years',
       summary:
         'Turn messy client source systems into models and dashboards people actually open. You will sit close to the client and defend your own numbers.',
@@ -608,11 +621,11 @@ export class ContentService {
       slug: 'customer-support-associate',
       title: 'Customer Support Associate',
       practice: 'Business Process Outsourcing',
-      type: 'Full-time · Shift work',
-      location: 'Banani, Dhaka · On-site',
+      type: 'Full-time · Staggered shifts',
+      location: 'Manhattan, New York · On-site',
       level: 'Entry to 3 years',
       summary:
-        'First-line support for international client accounts over email, chat and voice. Full training provided; the bar is written English and patience.',
+        'First-line support for client accounts over email, chat and voice. Full training provided; the bar is clear writing and patience under volume.',
       responsibilities: [
         'Resolve first-line tickets against documented runbooks',
         'Escalate cleanly, with the diagnosis already done',
@@ -621,9 +634,9 @@ export class ContentService {
       ],
       requirements: [
         'Excellent written English; clear spoken English for voice accounts',
-        'Willingness to work shifted hours, including night shifts on some accounts',
+        'Willingness to work staggered hours — some accounts need an early open or a Pacific close',
         'Comfort with ticketing tools, or the appetite to learn them quickly',
-        'Graduate or final-year student',
+        'Authorised to work in the US; no visa sponsorship for this role',
       ],
     },
     {
@@ -631,10 +644,10 @@ export class ContentService {
       title: 'Frontend Engineer',
       practice: 'Web & Software Development',
       type: 'Full-time',
-      location: 'Banani, Dhaka · Hybrid',
+      location: 'Manhattan, New York · Hybrid',
       level: '3+ years',
       summary:
-        'Build interfaces that hold up on a mid-range Android phone on a weak connection — because that is the device most of our end users have.',
+        'Build interfaces that hold up on a four-year-old phone on hotel wifi — because that is where our clients’ end users actually are, whatever the analytics dashboard averages out to.',
       responsibilities: [
         'Build accessible, responsive interfaces from design or from scratch',
         'Own performance budgets and defend them against feature pressure',
@@ -652,8 +665,8 @@ export class ContentService {
 
   readonly stats = [
     { value: '6', label: 'Practice areas under one roof', note: 'Software, data, ITeS, consulting, BPO and business development' },
-    { value: '4', label: 'Continents served from Dhaka', note: 'Europe, North America, Asia-Pacific and the Gulf' },
-    { value: 'GMT+6', label: 'One time zone, full overlap', note: 'A working day that reaches London, Dubai, Singapore and Sydney' },
+    { value: '3', label: 'Continents served from New York', note: 'North America, South America and Europe' },
+    { value: 'ET', label: 'One time zone, the whole US day', note: 'A working day that opens on London and closes on San Francisco' },
     { value: '30 days', label: 'Defect warranty on every build', note: 'Included as standard, not sold as an add-on' },
   ];
 

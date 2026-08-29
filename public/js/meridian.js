@@ -1,8 +1,8 @@
 /**
  * The Meridian — the hero's signature element.
  *
- * A hairline globe, oriented so Dhaka sits on the visible hemisphere, with
- * great-circle routes running from Dhaka to each delivery hub. Cities are
+ * A hairline globe, oriented so New York sits on the visible hemisphere, with
+ * great-circle routes running from New York to each delivery hub. Cities are
  * plotted at their real coordinates, the routes are real great circles, and
  * the globe rocks slowly rather than spinning so the origin node never leaves
  * the front face. The three arcs at the upper right are the signal arcs from
@@ -11,14 +11,15 @@
 
 const DEG = Math.PI / 180;
 
-const ORIGIN = { name: 'Dhaka', lat: 23.78, lon: 90.4 };
+const ORIGIN = { name: 'New York', lat: 40.71, lon: -74.01 };
 
+// Keys must match the hub names the server renders into data-hubs.
 const CITIES = {
+  'San Francisco': { lat: 37.77, lon: -122.42 },
+  Chicago: { lat: 41.88, lon: -87.63 },
+  Toronto: { lat: 43.65, lon: -79.38 },
+  'São Paulo': { lat: -23.55, lon: -46.63 },
   London: { lat: 51.51, lon: -0.13 },
-  'New York': { lat: 40.71, lon: -74.01 },
-  Dubai: { lat: 25.2, lon: 55.27 },
-  Singapore: { lat: 1.35, lon: 103.82 },
-  Sydney: { lat: -33.87, lon: 151.21 },
 };
 
 const COLOR = {
@@ -248,9 +249,12 @@ export function initMeridian(root) {
 
     ctx.font = '500 9px "IBM Plex Mono", ui-monospace, monospace';
     ctx.fillStyle = COLOR.label;
-    ctx.textAlign = 'left';
+    // Hubs west of the origin get their label on the left, so a long name like
+    // SAN FRANCISCO does not run back across the origin node.
+    const onLeft = p.x < cx;
+    ctx.textAlign = onLeft ? 'right' : 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(name.toUpperCase(), p.x + 7, p.y);
+    ctx.fillText(name.toUpperCase(), p.x + (onLeft ? -7 : 7), p.y);
   }
 
   function drawOrigin(yaw, pitch, time) {
@@ -277,7 +281,7 @@ export function initMeridian(root) {
     ctx.fillStyle = '#6fdcf5';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText('DHAKA', p.x + 10, p.y);
+    ctx.fillText('NEW YORK', p.x + 10, p.y);
   }
 
   /** The three signal arcs lifted straight from the company mark. */
@@ -300,10 +304,15 @@ export function initMeridian(root) {
   function frame(time) {
     ctx.clearRect(0, 0, width, height);
 
-    // Rock between ±38° of Dhaka's meridian rather than spinning, so the
+    // Rock between ±34° of New York's meridian rather than spinning, so the
     // origin node never rotates out of view.
     const yaw = ORIGIN.lon * DEG + Math.sin(time * 0.16) * 34 * DEG;
-    const pitch = (-16 + Math.sin(time * 0.11) * 4) * DEG;
+    // Shallower tilt than the globe originally carried. New York sits at 40.7°N
+    // against the old origin's 23.8°N, and the previous -16° pitch pushed it out
+    // to 84% of the radius — pinned against the rim with the whole lower half of
+    // the globe empty. This keeps it at roughly the height the origin node was
+    // composed at.
+    const pitch = (-4 + Math.sin(time * 0.11) * 4) * DEG;
 
     drawWireframe(yaw, pitch);
     drawSignalArcs(time);

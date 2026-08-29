@@ -1,7 +1,7 @@
 # Providing IT Services — corporate website
 
 Server-rendered marketing site for Providing IT Services, a technology services
-firm in Banani, Dhaka. Built on NestJS with Handlebars templates, hand-authored
+firm in Lower Manhattan, New York. Built on NestJS with Handlebars templates, hand-authored
 CSS and vanilla ES modules. No client-side framework, no build step for the
 front-end.
 
@@ -82,14 +82,14 @@ the top. The direction is documented in the file header. In short:
 Two pieces carry the identity and are worth knowing about before editing:
 
 **The Meridian** (`public/js/meridian.js`) — the hero canvas. A hairline globe
-oriented so Dhaka sits on the visible hemisphere, with real great-circle routes
+oriented so New York sits on the visible hemisphere, with real great-circle routes
 (computed by slerp) running to each delivery hub at its real coordinates. The
 globe rocks between ±34° rather than spinning, so the origin node never leaves
 the front face. Hub list comes from `ContentService.hubs`.
 
 **The coverage instrument** (`public/js/coverage.js`) — the 24-cell band on the
 home page. It reads the visitor's own time zone in their browser and shows how
-much of *their* working day overlaps Dhaka's 09:00–18:00. Nothing is sent to
+much of *their* working day overlaps New York's 09:00–18:00. Nothing is sent to
 the server. Handles half-hour zone offsets (India, Nepal) by sampling the middle
 of each hour.
 

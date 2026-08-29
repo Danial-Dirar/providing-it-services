@@ -19,7 +19,7 @@
   <meta property="og:image" content="{{siteUrl}}/assets/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Providing IT Services — technology, consulting and support, Dhaka">
+  <meta property="og:image:alt" content="Providing IT Services — technology, consulting and support, New York">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{meta.title}}">
@@ -54,11 +54,12 @@
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "{{company.address.line1}}",
-      "addressLocality": "Dhaka",
-      "postalCode": "1213",
-      "addressCountry": "BD"
+      "addressLocality": "{{company.address.locality}}",
+      "addressRegion": "{{company.address.region}}",
+      "postalCode": "{{company.address.postalCode}}",
+      "addressCountry": "{{company.address.countryCode}}"
     },
-    "areaServed": ["Bangladesh", "United Kingdom", "United States", "Australia", "Singapore", "United Arab Emirates"],
+    "areaServed": ["United States", "Canada", "Mexico", "Brazil", "United Kingdom", "Ireland"],
     "knowsAbout": ["Web Development", "Data Analytics", "IT Enabled Services", "IT Consultancy", "Business Process Outsourcing", "Business Development"]
   }
   </script>

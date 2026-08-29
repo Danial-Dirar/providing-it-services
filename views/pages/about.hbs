@@ -28,12 +28,12 @@
     <div class="rail">
       <div class="rail__aside" data-reveal>
         <span class="label label--onlight">The firm</span>
-        <p class="muted" style="font-size: var(--step--1)">Banani, Dhaka. Founded {{company.founded}}.</p>
+        <p class="muted" style="font-size: var(--step--1)">Lower Manhattan, New York. Founded {{company.founded}}.</p>
       </div>
       <div class="prose" data-reveal>
-        <p class="t-sm">Providing IT Services is a technology services firm in Dhaka. We build software, stand up data platforms, and run the operational teams that sit behind both — for companies in Bangladesh and for companies buying capacity from Bangladesh.</p>
+        <p class="t-sm">Providing IT Services is a technology services firm in New York. We build software, stand up data platforms, and run the operational teams that sit behind both — for companies across the United States and for international companies using New York as their first American office.</p>
         <p class="muted">The six practices exist under one roof deliberately. In a services market where most firms specialise in one thing and subcontract the rest, a problem that crosses a boundary — a reporting failure that is really a process failure, a support backlog that is really a product defect — turns into a procurement exercise rather than a fix. We would rather absorb that internally.</p>
-        <p class="muted">Our view is that outsourcing relationships fail on communication far more often than on capability. The engineers are usually good enough. What goes wrong is that nobody says the schedule slipped until the deadline arrives, or the status report describes a different project from the one being built. Everything in the way we run engagements is an attempt to make that specific failure harder.</p>
+        <p class="muted">Our view is that services relationships fail on communication far more often than on capability. The engineers are usually good enough. What goes wrong is that nobody says the schedule slipped until the deadline arrives, or the status report describes a different project from the one being built. Everything in the way we run engagements is an attempt to make that specific failure harder.</p>
       </div>
     </div>
   </div>
@@ -87,11 +87,12 @@
     <div class="split">
       <div data-reveal>
         <span class="label">Where we are</span>
-        <h2 class="t-lg mt-2 mb-2">Dhaka, and the day it reaches</h2>
+        <h2 class="t-lg mt-2 mb-2">New York, and the day it reaches</h2>
         <p class="muted mb-3" style="font-size: var(--step--1); line-height: 1.7">
-          Bangladesh sits at UTC+6 with no daylight saving, which makes the arithmetic
-          unusually simple: one office, one schedule, and a working day that touches
-          Singapore and Sydney in the morning and London and Dubai in the afternoon.
+          Eastern time is the one zone that reaches the whole American working day and
+          still catches Europe: London is mid-afternoon when we open, San Francisco is
+          mid-morning when most of our clients&rsquo; days end. One office, one schedule,
+          and no handover note written for someone who will read it eight hours later.
         </p>
         <address class="footer__address" style="margin-top: 0">
           {{company.address.line1}}<br>
@@ -108,7 +109,7 @@
             <div class="hub" data-hub-zone="{{this.zone}}">
               <span class="hub__city">{{this.name}}</span>
               <span class="hub__time">--:--</span>
-              <span class="hub__delta">Dhaka {{this.offset}}h</span>
+              <span class="hub__delta" data-hub-delta>{{this.offset}}h</span>
             </div>
           {{/each}}
         </div>

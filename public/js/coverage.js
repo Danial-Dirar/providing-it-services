@@ -2,11 +2,13 @@
  * The coverage instrument.
  *
  * A 24-cell band of the visitor's own working day, marked with the hours the
- * Dhaka office is open. The point is that the answer is about the reader —
+ * New York office is open. The point is that the answer is about the reader —
  * their time zone, computed in their browser — rather than a claim we make.
  */
 
-const DHAKA_OFFSET_MINUTES = 360; // UTC+6, no daylight saving in Bangladesh.
+import { zoneOffsetMinutes } from './clock.js';
+
+const OFFICE_ZONE = 'America/New_York';
 const DAY_START = 9;
 const DAY_END = 18;
 
@@ -16,9 +18,14 @@ function localOffsetMinutes(date = new Date()) {
   return -date.getTimezoneOffset();
 }
 
-/** Hours to add to a local hour to get the equivalent Dhaka hour. */
+/**
+ * Hours to add to a local hour to get the equivalent New York hour.
+ *
+ * Read live rather than hardcoded: Eastern time observes daylight saving, so a
+ * fixed offset would be wrong for roughly a third of the year.
+ */
 function deltaHours(date = new Date()) {
-  return (DHAKA_OFFSET_MINUTES - localOffsetMinutes(date)) / 60;
+  return (zoneOffsetMinutes(OFFICE_ZONE, date) - localOffsetMinutes(date)) / 60;
 }
 
 function inWorkingHours(hour) {
@@ -35,11 +42,11 @@ function buildModel(date = new Date()) {
     // Sample the middle of the hour so half-hour zone offsets land correctly.
     const mid = hour + 0.5;
     const you = inWorkingHours(mid);
-    const dhaka = inWorkingHours(mid + delta);
+    const office = inWorkingHours(mid + delta);
 
-    if (you && dhaka) overlap += 1;
+    if (you && office) overlap += 1;
 
-    cells.push({ hour, you, dhaka, state: you && dhaka ? 'both' : you ? 'you' : dhaka ? 'dhaka' : 'off' });
+    cells.push({ hour, you, office, state: you && office ? 'both' : you ? 'you' : office ? 'office' : 'off' });
   }
 
   return { cells, overlap, delta };
@@ -47,24 +54,24 @@ function buildModel(date = new Date()) {
 
 /**
  * Reads as a continuation of the big number beside it, e.g.
- * "6 hrs of your working day overlap the Dhaka office directly."
+ * "6 hrs of your working day overlap the New York office directly."
  */
 function sentenceFor(overlap, delta) {
   const gap = Math.abs(delta);
   const gapText =
     delta === 0
-      ? 'You are on Dhaka time.'
-      : `Dhaka is ${gap % 1 === 0 ? gap : gap.toFixed(1)} hours ${
+      ? 'You are on New York time.'
+      : `New York is ${gap % 1 === 0 ? gap : gap.toFixed(1)} hours ${
           delta > 0 ? 'ahead of' : 'behind'
         } you.`;
 
   if (overlap === 0) {
-    return `of direct overlap with 09:00–18:00 in Dhaka — which is exactly the case our shifted rosters exist for. ${gapText}`;
+    return `of direct overlap with 09:00–18:00 in New York — which is exactly the case our early and late rosters exist for. ${gapText}`;
   }
   if (overlap >= 8) {
     return `of your working day sit inside ours, so a question asked in your morning is answered the same morning. ${gapText}`;
   }
-  return `of your working day overlap the Dhaka office directly; the rest is covered by a shifted roster when an account needs it. ${gapText}`;
+  return `of your working day overlap the New York office directly; the rest is covered by a staggered roster when an account needs it. ${gapText}`;
 }
 
 export function initCoverage() {
@@ -75,7 +82,7 @@ export function initCoverage() {
   const hoursHost = root.querySelector('[data-coverage-hours]');
   const zoneLabel = root.querySelector('[data-coverage-zone]');
 
-  const dhakaOut = document.querySelector('[data-coverage-dhaka]');
+  const officeOut = document.querySelector('[data-coverage-office]');
   const youOut = document.querySelector('[data-coverage-you]');
   const overlapOut = document.querySelector('[data-coverage-overlap]');
   const sentenceOut = document.querySelector('[data-coverage-sentence]');
@@ -119,18 +126,18 @@ export function initCoverage() {
       node.dataset.on = cell.state;
       node.dataset.now = String(index === currentHour);
       node.title = `${pad(cell.hour)}:00 your time — ${
-        cell.dhaka ? 'Dhaka office open' : 'Dhaka office closed'
+        cell.office ? 'New York office open' : 'New York office closed'
       }`;
     });
 
-    const dhakaTime = new Intl.DateTimeFormat('en-GB', {
+    const officeTime = new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
-      timeZone: 'Asia/Dhaka',
+      timeZone: OFFICE_ZONE,
     }).format(now);
 
-    if (dhakaOut) dhakaOut.textContent = dhakaTime;
+    if (officeOut) officeOut.textContent = officeTime;
     if (youOut) youOut.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
     if (overlapOut) {
       overlapOut.textContent = overlap === 0 ? '0 hrs' : `${overlap} hrs`;
@@ -139,7 +146,7 @@ export function initCoverage() {
 
     cellsHost.setAttribute(
       'aria-label',
-      `Working-hour overlap: ${overlap} of your working hours fall inside Dhaka office hours.`,
+      `Working-hour overlap: ${overlap} of your working hours fall inside New York office hours.`,
     );
   }
 
