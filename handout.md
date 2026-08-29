@@ -56,8 +56,8 @@ A nine-route server-rendered marketing site, plus one API endpoint.
 | `/robots.txt`, `/sitemap.xml`, `/healthz` | Generated from content |
 | 404 / 500 | Branded HTML error page with a full site index |
 
-**Fonts are self-hosted.** `public/fonts/` holds the woff2 subsets (312 KB
-total, latin + latin-ext) and `public/css/fonts.css` declares them. Archivo and
+**Fonts are self-hosted.** `public/fonts/` holds the woff2 subsets (10 files,
+292 KB total, latin + latin-ext) and `public/css/fonts.css` declares them. Archivo and
 IBM Plex Sans turned out to be variable fonts — one file each covers the whole
 weight range, and Archivo's `wdth` axis is what the display type depends on. IBM
 Plex Mono is still static, so it ships three weights. Nothing on the site now
@@ -80,10 +80,10 @@ Worth understanding before changing anything visual, because the pieces are
 connected.
 
 The logo is a globe with a signal radiating from one node. The business is a
-New York team whose working day runs from the London afternoon to the San
-Francisco close. Those are the same idea,
-so the whole site is built on it: an origin node, arcs leaving it, and a hairline
-mesh that behaves like stitching.
+New York team whose working day runs from the London afternoon through to the
+San Francisco close. Those are the same idea, so the whole site is built on it:
+an origin node, arcs leaving it, and a hairline mesh that behaves like
+stitching.
 
 **Palette** (from the mark): `--ink #04162a` grounds, `--signal #23b9dd` accent,
 `--porcelain #eef2f6` light sections, `--navy #0e3b69` structure. One non-brand
@@ -106,6 +106,16 @@ process section *is* a sequence, so it is the only place numbering appears.
    from -16° to -4° when the origin moved: New York is at 40.7°N against the
    old origin's 23.8°N, and the original tilt pushed it out to 84% of the
    globe's radius — pinned against the rim with the lower half empty.
+**The hub roster is constrained by the globe, not just by the business.** The
+five hubs are San Francisco, Chicago, Toronto, São Paulo and London. The Dhaka
+build's roster (London, Dubai, Singapore, Sydney) was carried over at first and
+three of the five turned out to sit on the far side of the world from New York —
+Dubai and Singapore were visible 0% of the rocking cycle and Sydney 6%, so their
+arcs drew but their nodes and labels never did, while the readout still claimed
+"Routes active · 5". Anything east of about 25°E cannot be shown from a New York
+origin. If someone wants Singapore back on the list, the globe has to change
+too, or the node has to be allowed to sit on the back face deliberately.
+
 2. **The coverage instrument** — 24-cell band reading the visitor's own time
    zone and showing how many of *their* working hours overlap New York's. Note
    that Eastern time observes daylight saving where the previous origin did
@@ -322,8 +332,11 @@ would also be fine; there is no Dockerfile yet.
   directly; `public/img/og.jpg` is a 1200×630 crop of it for social previews,
   and `mark.svg` is a redrawn vector version that works on dark backgrounds and
   at favicon size.
-- `.env` is gitignored and already exists locally. The repo has no git history
-  yet — `git init` has not been run.
+- `.env` is gitignored and already exists locally.
+- The repo is on GitHub at `Danial-Dirar/providing-it-services`, `main` branch.
+  Vercel deploys from it on push, so **`git push` is the deploy trigger** —
+  check what is unpushed before assuming the live site matches the working tree.
+- `Logo/` (1.9 MB) is committed but excluded from the deploy by `.vercelignore`.
 
 ---
 
@@ -336,8 +349,9 @@ Worth getting answers before the next build session:
    should be cut for launch.
 3. Do they stand behind the 30-day defect warranty and the four commitments?
 4. Which roles are genuinely open?
-5. Where will this be hosted, and do they already own
-   `providingitservices.com` (or which domain)?
+5. Which domain, and do they already own it? Hosting is settled — Vercel, see
+   §5.2 — but the domain decides `SITE_URL`, the email addresses and the
+   social links.
 6. Do they want Spanish alongside English?
 7. Who receives contact-form enquiries, and do they have a mail service already?
 
@@ -373,7 +387,10 @@ So the next session knows what has and has not been verified.
   flying out of frame, and a footer wordmark clipped mid-word.
 - `prefers-reduced-motion` path renders everything visible with no animation.
 - Response times ~5–10 ms locally; CSS 11.6 KB gzipped, JS ~11 KB gzipped,
-  home page HTML 9.5 KB gzipped, fonts 312 KB (cached for 30 days in production).
+  home page HTML 9.5 KB gzipped, fonts 292 KB. On Vercel the fonts are served
+  from the CDN as `immutable` for a year and the rest of `/assets` for a day —
+  see the `headers` block in `vercel.json`. The 30-day `maxAge` on Express only
+  applies if the app is ever run on a plain Node server instead.
 - Rendering verified identical after moving from Google Fonts to self-hosted
   files, so the variable-font axes really are working.
 
