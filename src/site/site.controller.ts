@@ -46,7 +46,7 @@ export class SiteController {
       hero: {
         eyebrow: 'Services',
         title: 'Six practices, one accountable team',
-        lede: 'Most firms sell you one of these and subcontract the rest. We run all six from the same floor in Lower Manhattan, which is why a data problem that turns out to be a process problem does not become a new procurement exercise.',
+        lede: 'Most firms sell you one of these and subcontract the rest. We run all six from the same floor in Brooklyn, which is why a data problem that turns out to be a process problem does not become a new procurement exercise.',
       },
       services: this.content.services,
       process: this.content.process,
@@ -132,7 +132,7 @@ export class SiteController {
       meta: {
         title: 'About — Providing IT Services',
         description:
-          'Who we are, how we work, and what we commit to in writing. A technology services firm based in Lower Manhattan, New York.',
+          'Who we are, how we work, and what we commit to in writing. A technology services firm based in Brooklyn, New York.',
       },
       hero: {
         eyebrow: 'About',
@@ -154,7 +154,7 @@ export class SiteController {
       meta: {
         title: 'Careers — Providing IT Services',
         description:
-          'Open roles in engineering, analytics and operations at Providing IT Services in Lower Manhattan, New York.',
+          'Open roles in engineering, analytics and operations at Providing IT Services in Brooklyn, New York.',
       },
       hero: {
         eyebrow: 'Careers',

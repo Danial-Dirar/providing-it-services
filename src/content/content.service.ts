@@ -92,22 +92,24 @@ export class ContentService {
     description:
       'A New York-based technology services firm building software, data platforms and back-office operations for companies across the United States and abroad.',
     address: {
-      line1: 'Suite 1400, 25 Broadway',
-      line2: 'New York, NY 10004',
+      line1: '4315 12th Avenue',
+      line2: 'Brooklyn, NY 11219',
       country: 'United States',
       // Structured parts so the JSON-LD block does not repeat the address in a
       // second place and quietly drift from this one.
-      locality: 'New York',
+      locality: 'Brooklyn',
       region: 'NY',
-      postalCode: '10004',
+      postalCode: '11219',
       countryCode: 'US',
-      maps: 'https://maps.google.com/?q=25+Broadway,+New+York,+NY+10004',
+      maps: 'https://maps.google.com/?q=4315+12th+Avenue,+Brooklyn,+NY+11219',
     },
-    phone: '+1 (212) XXX-XXXX',
-    phoneHref: '+1212XXXXXXX',
-    email: 'hello@providingitservices.com',
-    salesEmail: 'newbusiness@providingitservices.com',
-    careersEmail: 'careers@providingitservices.com',
+    phone: '+1 (347) 740-2467',
+    phoneHref: '+13477402467',
+    // One mailbox handles general, new-business and careers enquiries. The
+    // three keys are kept so templates need not change if they ever split.
+    email: 'dailyjugandhar@gmail.com',
+    salesEmail: 'dailyjugandhar@gmail.com',
+    careersEmail: 'dailyjugandhar@gmail.com',
     hours: 'Monday – Friday, 09:00 – 18:00 (ET)',
     social: [
       { name: 'LinkedIn', href: 'https://www.linkedin.com/company/providing-it-services' },
@@ -578,7 +580,7 @@ export class ContentService {
       title: 'Senior Backend Engineer',
       practice: 'Web & Software Development',
       type: 'Full-time',
-      location: 'Manhattan, New York · Hybrid',
+      location: 'Brooklyn, New York · Hybrid',
       level: '5+ years',
       summary:
         'Own the server side of client platforms end to end — schema, API, deployment and the on-call that follows. You will be the most senior engineer on at least one account.',
@@ -600,7 +602,7 @@ export class ContentService {
       title: 'Data Analyst',
       practice: 'Data & Analytics',
       type: 'Full-time',
-      location: 'Manhattan, New York · Hybrid',
+      location: 'Brooklyn, New York · Hybrid',
       level: '2+ years',
       summary:
         'Turn messy client source systems into models and dashboards people actually open. You will sit close to the client and defend your own numbers.',
@@ -622,7 +624,7 @@ export class ContentService {
       title: 'Customer Support Associate',
       practice: 'Business Process Outsourcing',
       type: 'Full-time · Staggered shifts',
-      location: 'Manhattan, New York · On-site',
+      location: 'Brooklyn, New York · On-site',
       level: 'Entry to 3 years',
       summary:
         'First-line support for client accounts over email, chat and voice. Full training provided; the bar is clear writing and patience under volume.',
@@ -644,7 +646,7 @@ export class ContentService {
       title: 'Frontend Engineer',
       practice: 'Web & Software Development',
       type: 'Full-time',
-      location: 'Manhattan, New York · Hybrid',
+      location: 'Brooklyn, New York · Hybrid',
       level: '3+ years',
       summary:
         'Build interfaces that hold up on a four-year-old phone on hotel wifi — because that is where our clients’ end users actually are, whatever the analytics dashboard averages out to.',

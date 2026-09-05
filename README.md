@@ -1,7 +1,7 @@
 # Providing IT Services — corporate website
 
 Server-rendered marketing site for Providing IT Services, a technology services
-firm in Lower Manhattan, New York. Built on NestJS with Handlebars templates, hand-authored
+firm in Brooklyn, New York. Built on NestJS with Handlebars templates, hand-authored
 CSS and vanilla ES modules. No client-side framework, no build step for the
 front-end.
 

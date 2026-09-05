@@ -28,7 +28,7 @@ export function resolveSiteUrl(): string {
  * Whether search engines may crawl and index this deployment.
  *
  * Opt-in rather than opt-out. The site ships with placeholder content —
- * invented case studies with fabricated metrics, a placeholder phone number —
+ * invented case studies with fabricated metrics —
  * and Vercel deploys the default branch straight to Production, so "is this
  * production?" is the wrong question to hang indexing on. Set
  * ALLOW_INDEXING=true only once the content has been signed off.

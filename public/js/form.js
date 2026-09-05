@@ -86,7 +86,7 @@ export function initContactForm() {
         setStatus(
           'error',
           'Too many submissions. ',
-          `Try again later, or email us directly at ${form.dataset.email ?? 'hello@providingitservices.com'}.`,
+          `Try again later, or email us directly at ${form.dataset.email ?? 'dailyjugandhar@gmail.com'}.`,
         );
         return;
       }
@@ -102,13 +102,13 @@ export function initContactForm() {
       setStatus(
         'error',
         'That did not send. ',
-        `Try again, or email us directly at ${form.dataset.email ?? 'hello@providingitservices.com'}.`,
+        `Try again, or email us directly at ${form.dataset.email ?? 'dailyjugandhar@gmail.com'}.`,
       );
     } catch {
       setStatus(
         'error',
         'No connection. ',
-        `The message did not leave your browser. Check your connection, or email ${form.dataset.email ?? 'hello@providingitservices.com'}.`,
+        `The message did not leave your browser. Check your connection, or email ${form.dataset.email ?? 'dailyjugandhar@gmail.com'}.`,
       );
     } finally {
       submit?.removeAttribute('aria-busy');

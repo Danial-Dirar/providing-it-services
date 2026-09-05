@@ -139,12 +139,15 @@ plausible invention, not fact.** All of it lives in
 
 | Item | Current value | Needs |
 |---|---|---|
-| Phone | `+880 1XXX-XXXXXX` | The real number |
-| Address | Suite 1400, 25 Broadway, New York, NY 10004 | The real address |
 | Founded | `2019` | The real year |
-| Emails | `hello@`, `newbusiness@`, `careers@providingitservices.com` | Confirm the domain and that these mailboxes exist |
+| Emails | `dailyjugandhar@gmail.com` for all three of general, new business and careers | A mailbox on the company domain once it exists — a Gmail address reads as a sole trader, not a services firm |
 | Social links | LinkedIn / GitHub / Facebook slugs are guesses | Real URLs, or delete the rows |
-| Google Maps link | Points at 25 Broadway generally | Real pin |
+
+Phone, address and the Maps pin were supplied by the client on 5 September 2026
+and are now real: `+1 (347) 740-2467`, 4315 12th Avenue, Brooklyn, NY 11219. The
+office moved from the placeholder Lower Manhattan address to Brooklyn at the
+same time, so page copy, the four job-posting locations and the footer strap all
+say Brooklyn now.
 
 ### Case studies — `caseStudies` array
 
@@ -265,8 +268,8 @@ Everything else (`NODE_ENV`, `VERCEL`, `VERCEL_ENV`, `VERCEL_URL`,
 
 **Indexing is opt-in.** Vercel deploys the default branch straight to
 Production, so a first deploy would otherwise have gone live with `robots.txt`
-saying `Allow: /` while the site still carries invented case studies and a
-placeholder phone number. `isIndexable()` in `src/common/site-url.ts` therefore
+saying `Allow: /` while the site still carries invented case studies.
+`isIndexable()` in `src/common/site-url.ts` therefore
 requires `ALLOW_INDEXING=true` on top of production; until it is set, robots.txt
 says `Disallow: /` and every response carries `X-Robots-Tag: noindex, nofollow`.
 Turning it on is the last step of launch, after §4 is resolved.
@@ -344,7 +347,8 @@ would also be fine; there is no Dockerfile yet.
 
 Worth getting answers before the next build session:
 
-1. Real contact details, address, founding year, and confirmed domain.
+1. Founding year, and a confirmed domain — contact details and address are
+   now real (see §4). A mailbox on that domain to replace the Gmail address.
 2. Do they have case studies they can publish, even anonymised? If not, `/work`
    should be cut for launch.
 3. Do they stand behind the 30-day defect warranty and the four commitments?
